@@ -1,0 +1,68 @@
+<div class="row">
+  <h3>TEAM ADMINISTRATION</h3>
+  <div class="pagination clearfix">
+    <a href="#/teamhq-results" class="left pagination-page-back"><span class="pagination-links-back sprite"></span>Back to Results</a>
+    <h2>{{currentTeam.info.name}}</h2>
+    
+  </div>
+  <div class="divider"><hr></div>
+</div>
+
+<div class="row columns-three">
+
+  <div class="column first sidenav" ng-include src="'partials/teamhq/teamhq-side-nav.html'"></div>
+
+  <div class="column">
+    <div class="preference">
+      <h4>Edit Profile</h4>
+      <p class="description">To edit an individual guest's account information, select their account in <a href="#/guest-admin">Guest Admin</a>.</p>
+
+      <div class="teamhq-details form">
+
+        <h5>TEAM HOME STORE:</h5>
+        <div class="teamhq-store full">
+          <div class="clearfix">
+            <span>{{currentTeam.info.store_name}}</span>
+            <button type="button" ng-click="changeCurrentLocation()" ng-show="location.showButton == true && currentTeam.info.end_date==null"><span>CHANGE LOCATION</span></button>
+          </div>
+          <div store-form="location" ng-show="location.showFields == true"></div>
+        </div>
+
+        <p>NOTE: This team's rewards can only be redeemed at this location. They can't use their food credit anywhere else.</p>
+        <p>The Team HQ pilot program is only available at the following stores: Midland, Peterborough, and Peterborough North.</p>
+
+        <h5>TEAM NAME:</h5>
+        <input type="text" ng-model="teamHqProfile.name"/>
+          
+        <h5>TEAM CAPTAIN:</h5>
+        <div class="full">
+          <div class="dropdown">
+            <div class="dropdown-box">
+              {{ teamHqProfile.changeCaptain.first_name }} {{ teamHqProfile.changeCaptain.last_name }}
+            </div>
+            <select name="account-city" ng-options="member.first_name + ' ' + member.last_name for member in currentTeam.eligibleCaptains" ng-model="teamHqProfile.changeCaptain">
+            </select>
+            <div class="sprite arrow"></div>
+          </div>
+        </div>
+
+        <p>Want to change the team captain? Click the dropdown button and select another member of the team.</p> 
+        <p>Only team members who are eligible to be captain will appear on this list.</p>
+        <p>A team member cannot be captain if:</p>
+        <ol>
+          <li>They have not opted into Team HQ email communications. To opt a team member in, visit the Team HQ section of their profile in Guest Admin.</li>
+          <li>They belong to more than one team. To remove a user from a team, visit the Team HQ section of their profile in Guest Admin, or visit the Team Roster page within their Team HQ profile.</li>
+        </ol>
+
+        <div class="btns right">
+          <button type="submit" ng-click="saveProfile()" ng-show="currentTeam.info.end_date==null"><span>SAVE</span></button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<div generic-modal="modal"></div>

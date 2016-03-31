@@ -1,0 +1,37 @@
+<div class="row">
+  <h3>TEAM ADMINISTRATION</h3>
+  <div class="pagination clearfix">
+    <a href="#/teamhq-results" class="left pagination-page-back"><span class="pagination-links-back sprite"></span>Back to Results</a>
+    <h2>{{currentTeam.info.name}}</h2>
+    
+  </div>
+  <div class="divider"><hr></div>
+</div>
+
+<div class="row columns-three">
+
+  <div class="column first sidenav" ng-include src="'partials/teamhq/teamhq-side-nav.html'"></div>
+
+  <div class="column teamhq-status">
+    <div class="preference">
+      <h4>Team Status</h4>
+      <p class="description">Team is: <span ng-show="currentTeam.info.end_date==null">ACTIVE</span> <span ng-show="currentTeam.info.end_date!=null">INACTIVE</span></p>
+      <div class="status-disband">
+        <div ng-show="currentTeam.info.end_date==null">
+          <p><strong>Are you sure you want to do this?</strong></p>
+          <p>If you click this button, the team will lose the food credit they've earned forever. There's no going back once you do this. </p>
+          <div class="btns">
+            <button type="submit" ng-click="confirmDisband()"><span>Disband Team</span></button>
+          </div>
+        </div>
+        <div ng-show="currentTeam.info.end_date!=null">
+          <p>This team has been disbanded, and all rewards have been lost. This action cannot be undone.</p>
+          <p>If the customer wants to join Team HQ, they must re-create a team or join a new one. </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div generic-modal="modal"></div>

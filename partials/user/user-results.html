@@ -1,0 +1,44 @@
+<div class="row">
+
+
+  <h3>Search Results</h3>
+  <p class="small">There {{searchResults.csp_users.length == 1 && 'was' || 'were'}} <strong>{{searchResults.csp_users.length}}</strong> {{searchResults.csp_users.length == 1 && 'result' || 'results'}} found for your search.</p>
+  <div class="divider"><hr></div>
+  
+
+  <div ng-if="searchResults">
+    <div class="pagination clearfix">
+      <a href="#/user-admin" class="left pagination-page-back"><span class="pagination-links-back sprite"></span>Back to Search</a>
+      <ul class="right pagination-links" >
+        <li><button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1" class="pagination-links-back sprite">BACK</button></li>
+        <li>{{currentPage+1}} of {{numberOfPages()}}</li>
+        <li><button ng-disabled="currentPage >= data.length/pageSize - 1" ng-click="currentPage=currentPage+1" class="pagination-links-next sprite">NEXT</button></li>
+      </ul>
+    </div>
+
+    <table class="list">
+      <tr>
+        <th>USERNAME</th>
+        <th>FIRST NAME</th>
+        <th>LAST NAME</th>
+        <th>ROLE</th>
+        <th>CONTACT NUMBER</th>
+      </tr>
+      <tr ng-model="numUsers" ng-repeat="user in searchResults.csp_users | startFrom:currentPage*pageSize | limitTo:pageSize">
+        <td><a href="#/user-details/{{user.csp_user_id}}">{{user.username}}</a></td>
+        <td>{{user.first_name}}</td>
+        <td>{{user.last_name}}</td>
+        <td>{{user.role | cropStart}}</td>
+        <td>{{user.phone_number | tel}}</td>
+      </tr>
+    </table>
+
+    <div class="pagination clearfix">
+      <ul class="right pagination-links">
+        <li><button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1" class="pagination-links-back sprite">BACK</button></li>
+        <li>{{currentPage+1}} of {{numberOfPages()}}</li>
+        <li><button ng-disabled="currentPage >= data.length/pageSize - 1" ng-click="currentPage=currentPage+1" class="pagination-links-next sprite">NEXT</button></li>
+      </ul>
+    </div>
+  </div>
+</div>

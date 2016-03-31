@@ -1,0 +1,72 @@
+
+<div class="row columns-three">
+  <h3>Create An Account</h3>
+  <p>We're adding new members to our team! (*) represents required fields.</p>
+  <div class="divider"><hr></div>
+  <form name="newAccountForm" ng-submit="newUser()" class="form" ng-class="{hidden: hideForm==true}">
+
+    <div class="clearfix">
+      <div class="column first">
+        
+        
+        
+        <label for="firstname">FIRST NAME*</label>
+        <input type="text" name="firstname" class="user-firstname" ng-model="userData.first_name" required />
+        <label for="lastname">LAST NAME*</label>
+        <input type="text" name="lastname" class="user-lastname" ng-model="userData.last_name" required />
+        <label for="contactnumber">CONTACT NUMBER*</label>
+        <input type="text" name="contactnumber" class="contactnumber" ng-model="userData.phone_number" numbers-only required />
+      </div>
+
+      <div class="column">
+        <label for="username">EMAIL (user name)*</label>
+        <input type="email" name="email" class="user-username" ng-model="userData.username" required />
+        <label for="username">PASSWORD*</label>
+        <input type="password" name="password" class="user-password" ng-model="userData.password" ng-minlength="8" ng-maxlength="20" required />
+        <div class="errors">
+          <span ng-show="!newAccountForm.password.$error.required && (newAccountForm.password.$error.minlength || newAccountForm.password.$error.maxlength) && newAccountForm.password.$dirty">Passwords must be between 8 and 20 characters.</span>
+        </div>
+      </div>
+      <div class="column last">
+        <label for="username">ROLE*</label>
+        <div class="dropdown">
+          <div class="dropdown-box">{{status}}</div>
+          <select name="account-status" ng-options="aType as aType.name for aType in accountTypes" ng-model="role" ng-change="changeStatus()" required>
+            <option value="">SELECT ROLE</option>
+          </select>
+          <div class="sprite arrow"></div>
+        </div>
+        <div class="note" ng-if="status != 'SELECT ROLE'">
+          <div ng-if="status == 'USER ADMIN'">
+            <p><strong>User Admin</strong></p>
+            <p>This user may add and edit system users, as well as guests.</p>
+          </div>
+          <div ng-if="status == 'GUEST ADMIN'">
+            <p><strong>Guest Admin</strong></p>
+            <p>This user may add new guests, and edit existing guest information.</p>
+          </div>
+          <div ng-if="status == 'CONTEST ADMIN'">
+            <p><strong>Contest Admin</strong></p>
+            <p>This user may add new contests, and edit existing guest information.</p>
+          </div>
+        </div>
+        <div class="errors">
+          <br>
+          <span>{{serverError}}</span>
+        </div>
+        <div class="btns right">
+          <button type="button" class="gray btn-cancel" ng-click="reset()"><span>CLEAR FIELDS</span></button><br>
+          <button type="submit" class="gray"><span>ADD USER</span></button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="wrapper hidden" fancybox>
+  <div class="future_fancybox_content center">
+    <br>
+    <p ng-bind="message"></p>
+    <button type="button" ng-click="close()"><span>CLOSE</span></button>
+  </div>
+</div>

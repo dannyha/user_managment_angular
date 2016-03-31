@@ -1,0 +1,147 @@
+
+<div class="row columns-three">
+  <h3>Register A Guest</h3>
+  <p>We're adding a new guest to myBP! (*) represents required fields.</p>
+  <div class="divider"><hr></div>
+  <form name="newGuestForm" ng-submit="newGuest()" class="form">
+
+    <div class="clearfix">
+      <div class="column first">        
+        <label for="email">EMAIL (user name)*</label>
+        <input type="email" name="email" class="user-username" ng-model="guestData.email" required />
+        <label for="firstname">FIRST NAME*</label>
+        <input type="text" name="firstname" class="user-firstname" ng-model="guestData.first_name" required />
+        <label for="lastname">LAST NAME*</label>
+        <input type="text" name="lastname" class="user-lastname" ng-model="guestData.last_name" required />  
+      </div>
+
+      <div class="column">
+        <label for="username">CONTACT NUMBER*</label>
+        <input type="text" name="phonenumber" class="login-contactnumber" ng-model="guestData.mobile_number" numbers-only required />
+      
+        <label for="province">MY BP</label>
+        <div class="full">
+          <div class="dropdown">
+            <div class="dropdown-box">{{province}}</div>
+            <select name="account-status" ng-options="province as province.n for province in $root.provinces" ng-model="mybp.province" ng-change="changeProvince()">
+              <option value="">Provice</option>
+            </select>
+            <div class="sprite arrow"></div>
+          </div>
+        </div>
+        <div class="full" ng-if="mybp.province != null">
+          <div class="dropdown">
+            <div class="dropdown-box">{{city}}</div>
+            <select name="account-status" ng-options="city as city for city in cList" ng-model="mybp.city" ng-change="changeCity()">
+              <option value="">City</option>
+            </select>
+            <div class="sprite arrow"></div>
+          </div>
+        </div>
+        <div class="full" ng-if="city != 'City' && mybp.province != null">
+          <div class="dropdown">
+            <div class="dropdown-box">{{locations}}</div>
+            <select name="account-status" ng-options="loc.store_id as loc.name for loc in cLoc" ng-model="guestData.store_id" ng-change="changeLocations()">
+              <option>locations</option>
+            </select>
+            <div class="sprite arrow"></div>
+          </div>
+        </div>
+
+        <label for="province">Language</label>
+        <div class="full">
+          <div class="dropdown">
+            <div class="dropdown-box">{{guestData.language}}</div>
+            <select name="language" ng-options="language as language.n for language in $root.languages" ng-model="guestData.language" ng-change="changeLanguage()">
+              <option value="">Select</option>
+            </select>
+            <div class="sprite arrow"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="column last">
+        <label for="acctnum">BIRTHDAY*</label>
+        
+        <input type="text" name="birthday" class="birthday" ng-pattern="/^((\d{1,2})-(\d{1,2}))/" placeholder="MM-DD" ng-model="birthday" birthday required />
+        <div class="errors">      
+          <span ng-show="newGuestForm.birthday.$error.pattern">&bullet; Invalid birthday format</span>
+        </div>
+
+        <label for="gender">Gender</label>
+        <div class="full">
+          <div class="dropdown">
+            <div class="dropdown-box">{{guestData.gender}}</div>
+            <select name="language" ng-options="gender as gender.n for gender in $root.genders" ng-model="guestData.gender" ng-change="changeGender()">
+              <option value="">Select</option>
+            </select>
+            <div class="sprite arrow"></div>
+          </div>
+        </div>
+                
+        <label for="ageRange">Age Range</label>
+        <div class="full">
+          <div class="dropdown">
+            <div class="dropdown-box">{{guestData.age_range}}</div>
+            <select name="language" ng-options="ageRange as ageRange.n for ageRange in $root.ageRanges" ng-model="guestData.age_range" ng-change="changeAgeRange()">
+              <option value="">Select</option>
+            </select>
+            <div class="sprite arrow"></div>
+          </div>
+        </div>
+        <br>
+        <button type="button" ng-click="addAddresses()">{{addressBtn}}</button>  
+        
+        <div class="checkbox">
+          <input type="checkbox" name="optin" id="optin" ng-model="guestData.opt_in" ng-change="changeOptin()"/> <label class="small" for="optin">Email Communications opt-in</label>
+        </div>
+        <br>
+        
+        <div class="btns">
+          <button type="button" class="gray btn-cancel" ng-click="reset()"><span>CLEAR FIELDS</span></button><br>
+          <button type="submit" class="gray"><span>ADD GUEST</span></button>
+        </div>
+      </div>
+      <div class="errors">
+        <br>
+        <span>{{serverReply}}</span>
+      </div>
+      
+    </div>
+  </form>
+
+</div>
+<div class="wrapper hidden" fancybox>
+  <div class="future_fancybox_content">
+    <div ng-if="viewBox == 'confirm'">
+      <br>
+      <p ng-bind="confirmationMsg"></p>
+      <button type="button" ng-click="close()">CLOSE</button>
+    </div>
+    <div class="addressForm" ng-if="viewBox == 'address'">
+      <h4>ENTER A NEW ADDRESS</h4>
+      <form name="addressForm" class="form" ng-submit="addressAdder()">
+        <label for="description">Description</label>
+        <input type="text" id="description" ng-model="address.nickname">
+        <label for="address1">Address*</label>
+        <input type="text" id="address1" ng-model="address.address_1" required>
+        <label for="address_2">Address 2</label>
+        <input type="text" id="address_2" ng-model="address.address_2">
+        <label for="city">City*</label>
+        <input type="text" id="city" ng-model="address.city" required>
+        <label for="province">Province*</label>      
+        
+        <select name="account-status" ng-options="province.v as province.n for province in $root.provinces" ng-model="address.province" required>
+          <option value="">Provice</option>
+        </select>
+          
+        <label for="postal_code">Postal Code*</label>
+        <input type="text" id="postal_code" ng-model="address.postal_code" capitalize required>
+        <div class="btns right">
+          <button type="button" ng-click="closeBox()"><span>CANCEL</span></button>
+          <button type="submit"><span>OK</span></button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

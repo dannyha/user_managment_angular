@@ -1,0 +1,96 @@
+
+<div class="row heading">
+    <div class="btns right" ng-if="userDetails.csp_user_id != paramID">
+      <button type="button" ng-click="removeAccount()" class="gray right"><span>REMOVE ACCOUNT</span></button>
+    </div>
+    <h3>{{currentInfo.first_name}} {{currentInfo.last_name}}</h3>
+</div>  
+<div class="row columns-three">  
+  <div class="divider"><hr></div>
+  <form name="editAccountForm" ng-submit="updateUser()" class="form" >
+
+    <div class="clearfix">
+      <div class="column first">
+        <label for="firstname">FIRST NAME*</label>
+        <input type="text" name="firstname" class="user-firstname" ng-model="currentInfo.first_name" required/>
+        <label for="lastname">LAST NAME*</label>
+        <input type="text" name="lastname" class="user-lastname" ng-model="currentInfo.last_name" required/>
+        <label for="phone">CONTACT NUMBER*</label>
+        <input type="text" name="phone" class="login-contactnumber" ng-model="currentInfo.phone_number" numbers-only required/>
+      </div>
+
+      <div class="column">
+        <label for="username">EMAIL (user name)*</label>
+        <input type="email" name="email" class="user-username" ng-model="currentInfo.username" required/>
+        <div ng-if="!pwChange">
+          <br>
+          <button type="button" ng-if="userDetails.csp_user_id == paramID" ng-click="changePassword()">CHANGE PASSWORD</button>
+        </div>
+        <div ng-if="pwChange">
+      
+          <label for="current">Current Password</label>
+          <input type="password" name="current" id="current" ng-model="changePass.current_password" required/>
+        
+          <label for="newPass">New Password</label>
+          <input type="password" name="newPass" id="newPass" ng-model="changePass.new_password" ng-minlength="8" ng-maxlength="20" required/>
+          <div class="errors">
+            <span ng-show="!editAccountForm.newPass.$error.required && (editAccountForm.newPass.$error.minlength || editAccountForm.newPass.$error.maxlength) && editAccountForm.newPass.$dirty">Passwords must be between 8 and 20 characters.</span>
+          </div>
+        
+          <label for="confirm">Confirm Password</label>
+          <input type="password" name="confirm" id="confirm" ng-model="changePass.confirm_new_password" data-match="changePass.new_password" ng-change="changepass()" required/>          
+          <div class="errors">
+            <span ng-show="editAccountForm.confirm.$error.match">Passwords do not match.</span>
+            <span>{{serverError}}</span>
+          </div>
+        </div>
+        
+      </div>
+      <div class="column last">
+        <div ng-if="userDetails.role != 'ROLE_CSP_GUEST_MANAGER'">
+          <label for="account-status">ROLE*</label>
+          <div class="dropdown">
+            <div class="dropdown-box">{{status}}</div>
+            <select name="account-status" ng-options="aType as aType.name for aType in accountTypes" ng-model="role" ng-change="changeStatus()" required>
+              <option value="" disabled>SELECT ROLE</option>
+            </select>
+            <div class="sprite arrow"></div>
+          </div>
+          <div class="note" ng-if="status">
+            <div ng-if="status == 'USER ADMIN'">
+              <p><strong>User Admin</strong></p>
+              <p>This user may add and edit system users, as well as guests.</p>
+            </div>
+            <div ng-if="status == 'GUEST ADMIN'">
+              <p><strong>Guest Admin</strong></p>
+              <p>This user may add new guests, and edit existing guest information.</p>
+            </div>
+            <div ng-if="status == 'CONTEST ADMIN'">
+              <p><strong>Contest Admin</strong></p>
+              <p>This user may add new contests, and edit existing contest information.</p>
+            </div>
+          </div>
+        </div>
+        <div class="errors">
+          <br>
+          <span>{{serverError}}</span>
+        </div>
+        <div class="btns right">
+          <button type="button" class="gray btn-cancel" ng-click="reset()"><span>UNDO CHANGES</span></button><br>
+          <button type="submit" class="gray" ><span>SAVE</span></button>
+        </div>
+      </div>
+    </div>
+    
+  </form>
+
+</div>
+
+<div class="wrapper hidden" fancybox>
+  <div class="future_fancybox_content center">
+      <br>
+      <p ng-bind="message"></p>
+      <button type="button" ng-click="accept()" ng-if="boxAction"><span>ACCEPT</span></button>
+      <button type="button" ng-click="close()"><span>CLOSE</span></button>
+  </div>
+</div>

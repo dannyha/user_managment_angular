@@ -1,0 +1,32 @@
+<div class="row">
+  <h3>Reset Password</h3>
+  <p>Enter your Customer Service Portal email address below and we'll send a link to reset your password.</p>
+  <div class="divider"><hr></div>
+</div>
+<div class="row columns-two">
+
+  <form name="loginForm" ng-submit="resetPass()" class="form" >    
+    <div class="column">
+      <label for="username">EMAIL (USER NAME)*</label>
+      <input type="email" name="username" class="login-username" ng-model="credentials.username" placeholder="Email Address" autocomplete="off" required />
+    </div>
+    
+    <div class="errors">
+      <span ng-show="loginForm.username.$error.email">&bullet; Invalid email</span>
+      <span>{{serverReply}}</span>
+    </div>
+
+    <div class="btns">
+      <button type="submit" class="gray"><span>CONTINUE</span></button>
+    </div>
+  </form>
+
+</div>
+
+<div class="wrapper hidden" fancybox>
+  <div class="future_fancybox_content passReset">
+    <h3>Check Your Email</h3>
+    <p>An email has been sent to your Customer Service Portal email address. Click on the link provided in the message to reset your password.</p>
+    <button type="button" ng-click="closeBox()"><span>BACK TO SIGN IN</span></button>
+  </div>
+</div>

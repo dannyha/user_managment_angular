@@ -1,0 +1,40 @@
+
+<div class="row columns-two teamhq-search">
+  <h3>Team HQ Administration</h3>
+  <div class="divider"><hr></div>
+  <form name="searchTeamsForm" ng-submit="findTeam()" class="form" ng-class="{hidden: hideForm==true}">
+    <div class="clearfix">
+      <div class="column first">
+        <h2>FIND A TEAM</h2>
+        <p>Search any of the fields below to find a team:</p>
+        <div class="fields">
+          <label for="name">TEAM NAME</label>
+          <input type="text" name="name" class="team-name" ng-model="teamHqSearch.teamName" />
+          <label for="captain_email">EMAIL</label>
+          <input type="text" name="captain_email" class="team-captain-email" ng-model="teamHqSearch.email" />
+          <label for="captain_first_name">FIRST NAME</label>
+          <input type="text" name="captain_first_name" class="team-captain-firstname" ng-model="teamHqSearch.firstName" />
+          <label for="captain_last_name">LAST NAME</label>
+          <input type="text" name="captain_last_name" class="team-captain-lastname" ng-model="teamHqSearch.lastName" />
+
+          <label for="bpStoreId">STORE</label>
+          <div store-form="location"></div>
+
+        </div>
+        <div class="btns">
+          <button type="button" class="gray btn-cancel" ng-click="reset()"><span>CLEAR FIELDS</span></button><br>
+          <button type="submit" class="gray" ng-disabled="checkFields()"><span>FIND</span></button>
+        </div>
+      </div>
+      <div class="column">
+      </div>
+    </div>
+  </form>
+</div>
+<div class="wrapper hidden" fancybox>
+  <div class="future_fancybox_content center">
+    <br>
+    <p>Team not found</p>
+    <button type="button" ng-click="close_fancybox()">CLOSE</button>
+  </div>
+</div>

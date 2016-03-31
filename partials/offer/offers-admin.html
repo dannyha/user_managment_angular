@@ -1,0 +1,61 @@
+<div class="row">
+  <h3>Current Offers</h3>
+  <div class="divider"><hr></div>
+  <div>
+    <div class="pagination clearfix">
+      <a href="#/overview" class="left pagination-page-back"><span class="pagination-links-back sprite"></span>Back</a>
+    </div>
+
+    <div ng-if="offers" class="offers">
+    <table class="list">
+      <tr>
+        <th>TITLE</th>
+        <th>DESCRIPTION</th>
+        <th>WALLET CODE</th>
+        <th>ONLINE</th>
+        <th>INSTORE</th>
+      </tr>
+      <tr ng-model="numUsers" ng-repeat="offer in offers" ng-click="uploadOfferBox(offer.walletCode)">
+        <td>{{offer.offerTitle}}</a></td>
+        <td>{{offer.offerDescription}}</a></td>
+        <td>{{offer.walletCode}}</a></td>
+        <td>{{offer.online}}</a></td>
+        <td>{{offer.inStore}}</a></td>
+      </tr>
+    </table>
+    </div>
+    <div class="pagination clearfix">
+      <ul class="right pagination-links hidden">
+        <li><button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1" class="pagination-links-back sprite">BACK</button></li>
+        <li>{{currentPage+1}} of {{numberOfPages()}}</li>
+        <li><button ng-disabled="currentPage >= data.length/pageSize - 1" ng-click="currentPage=currentPage+1" class="pagination-links-next sprite">NEXT</button></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script type="text/html" fancybox>
+  <div class="wrapper hidden">
+    <div class="future_fancybox_content">
+      <div class="rewardsBox" ng-if="overlayType == 'uploadOffer'">
+        <h4 class="edit">Upload Offer</h4>
+        <form name="uploadForm" ng-submit="uploadPic(uploadOffer.image)">
+          <div class="edit">
+            <label style="display:inline-block; width:150px;">IMAGE UPLOAD</label>
+            <input style="display:inline-block; width:180px;" type="file" ngf-select ng-model="uploadOffer.image" name="file" accept="image/*" required>
+          </div>
+          <div class="edit">
+            <label style="display:inline-block; width:150px;">LANGUAGE</label>
+            <input type="radio" ng-model="uploadOffer.language" value="EN">English
+            <input type="radio" ng-model="uploadOffer.language" value="FR">French
+          </div>
+          <div class="edit" style="margin:10px 0 20px 20px;">
+            <p class="error" style="display:inline-block; width:300px;" ng-show="uploadOfferError">Invalid file, please select a vaild png file that is<br />270px x 270px!</p>
+          </div>
+          <button type="submit" >SUBMIT</button>
+          <button type="button" ng-click="closeBox()">CANCEL</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</script>

@@ -1,0 +1,42 @@
+<div class="row">
+
+
+  <h3>Search Results</h3>
+  <p class="small">There {{data.length == 1 && 'was' || 'were'}} <strong>{{data.length}}</strong> {{data.length == 1 && 'result' || 'results'}} found for your search.</p>
+  <div class="divider"><hr></div>
+  
+
+  <div ng-if="guestSearchResults">
+    <div class="pagination clearfix">
+      <a href="#/guest-admin" class="left pagination-page-back"><span class="pagination-links-back sprite"></span>Back to Search</a>
+      <ul class="right pagination-links">
+        <li><button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1" class="pagination-links-back sprite">BACK</button></li>
+        <li>{{currentPage+1}} of {{numberOfPages()}}</li>
+        <li><button ng-disabled="currentPage >= data.length/pageSize - 1" ng-click="currentPage=currentPage+1" class="pagination-links-next sprite">NEXT</button></li>
+      </ul>
+    </div>
+
+    <table class="list">
+      <tr>
+        <th ng-click="reverse=false;order('email', false)">USERNAME</th>
+        <th ng-click="reverse=false;order('first_name', false)">FIRST NAME</th>
+        <th ng-click="reverse=false;order('last_name', false)">LAST NAME</th>
+        <th ng-click="reverse=false;order('phone_number', false)">CONTACT NUMBER</th>
+      </tr>
+      <tr ng-model="numUsers" ng-repeat="guest in data | startFrom:currentPage*pageSize | limitTo:pageSize">
+        <td><a href="#/guest-details/{{guest.guest_id}}">{{guest.email}}</a></td>
+        <td>{{guest.first_name}}</td>
+        <td>{{guest.last_name}}</td>
+        <td>{{guest.phone_number | tel}}</td>
+      </tr>
+    </table>
+
+    <div class="pagination clearfix">
+      <ul class="right pagination-links">
+        <li><button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1" class="pagination-links-back sprite">BACK</button></li>
+        <li>{{currentPage+1}} of {{numberOfPages()}}</li>
+        <li><button ng-disabled="currentPage >= data.length/pageSize - 1" ng-click="currentPage=currentPage+1" class="pagination-links-next sprite">NEXT</button></li>
+      </ul>
+    </div>
+  </div>
+</div>

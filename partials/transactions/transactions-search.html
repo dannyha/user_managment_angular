@@ -1,0 +1,85 @@
+
+<div class="row columns-two">
+  <h3>MASTER TRANSACTION FINDER</h3>
+  <div class="divider"><hr></div>
+  <form name="transactionFinderForm" class="form" ng-class="{hidden: hideForm==true}">
+    <div class="clearfix">
+      <div class="column first transactionFinder-search">
+        <h2>FIND A TRANSACTION</h2>
+        <p>Fill out one of the following sections in order to find a transaction. </p>
+
+        <div class="fields">
+          <label for="receipt">RECEIPT ID/ 15 DIGIT CODE</label>
+          <input type="text" name="recipt" placeholder="XXXXX-XXXXX-XXXXX" class="transactionFinder-receipt" ng-model="transactionFinder.receiptId" ng-change="checkReceiptInput();" />
+
+          <div class="btns">
+            <button type="button" class="gray btn-cancel" ng-click="reset()"><span>CLEAR FIELDS</span></button><br>
+            <button type="button" class="gray" ng-click="findBy(1);"><span>FIND</span></button>
+          </div>
+        </div>
+
+        <div class="divider">OR</div>
+
+        <div class="fields">
+          <label for="bpStoreId">STORE LOCATION</label>
+          <div store-form="location"></div>
+
+          <label for="date">DATE</label>
+          <input type="text" name="recipt" class="transactionFinder-date" ng-model="transactionFinder.dateRange" ui-date="dateOptions" />
+
+          <label for="time">TIME RANGE</label>
+          <div class="full">
+            <div class="dropdown">
+              <div class="dropdown-box">{{transactionFinder.timeRange.name}}</div>
+              <select name="time" ng-options="tRange as tRange.name for tRange in timeRange" ng-model="transactionFinder.timeRange">
+                <option value="">Time Range</option>
+              </select>
+              <div class="sprite arrow"></div>
+            </div>
+          </div>
+
+          <div class="btns">
+            <button type="button" class="gray btn-cancel" ng-click="reset()"><span>CLEAR FIELDS</span></button><br>
+            <button type="button" class="gray" ng-click="findBy(2);"><span>FIND</span></button>
+          </div>
+        </div>
+
+        <div class="divider">OR</div>
+
+        <div class="fields">
+          <label for="receipt">CHECK NUMBER</label>
+          <input type="text" name="recipt" class="transactionFinder-checknum" ng-model="transactionFinder.checkNum" />
+
+          <label for="bpStoreId">STORE LOCATION</label>
+          <div store-form="locationCheck"></div>
+
+          <label for="date">DATE</label>
+          <input type="text" name="recipt" class="transactionFinder-date" ng-model="transactionFinder.dateRangeCheck" ui-date="dateOptions" />
+
+          <label for="time">TIME</label>
+          <input type="number" name="recipt" class="transactionFinder-timeHour" ng-model="transactionFinder.timeHour" placeholder="HH" />
+          <input type="number" name="recipt" class="transactionFinder-timeMin" ng-model="transactionFinder.timeMin" placeholder="MM" />
+
+          <div class="btns">
+            <button type="button" class="gray btn-cancel" ng-click="reset()"><span>CLEAR FIELDS</span></button><br>
+            <button type="button" class="gray" ng-click="findBy(3);"><span>FIND</span></button>
+          </div>
+        </div>
+
+      </div>
+      <div class="column">
+        <img src="img/transaction_finder_receipt.png" width="100%" />
+      </div>
+    </div>
+  </form>
+</div>
+<div class="wrapper hidden" fancybox>
+  <div class="future_fancybox_content center">
+    <br>
+    <p>Team not found</p>
+    <button type="button" ng-click="close_fancybox()">CLOSE</button>
+  </div>
+</div>
+
+
+<div generic-modal="modal"></div>

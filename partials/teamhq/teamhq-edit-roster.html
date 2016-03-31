@@ -1,0 +1,71 @@
+<div class="row">
+  <h3>TEAM ADMINISTRATION</h3>
+  <div class="pagination clearfix">
+    <a href="#/teamhq-results" class="left pagination-page-back"><span class="pagination-links-back sprite"></span>Back to Results</a>
+    <h2>{{currentTeam.info.name}}</h2>
+    
+  </div>
+  <div class="divider"><hr></div>
+</div>
+
+<div class="row columns-three">
+
+  <div class="column first sidenav" ng-include src="'partials/teamhq/teamhq-side-nav.html'"></div>
+
+  <div class="column teamhq-rosters">
+    <div class="preference">
+      <h4>Edit Roster</h4>
+      <p class="description">To edit an individual's account information, select their username.</p>
+
+      <div class="rosters-list roster-invites">
+        <div class="sub-heading">
+          <h5>Pending Invitations</h5>
+        </div>
+        <table class="list">
+          <tr>
+            <th ng-click="reverse=false;order('iemail', false)">Username</th>
+            <th ng-click="reverse=false;order('first_name', false)">First Name</th>
+            <th ng-click="reverse=false;order('last_name', false)">Last Name</th>
+            <th ng-click="reverse=false;order('status', false)">Status</th>
+            <th ng-show="currentTeam.info.end_date==null"></th>
+          </tr>
+          <tr ng-repeat="invitee in currentTeam.invites | startFrom:paginationInvites.current*paginationInvites.size | limitTo:paginationInvites.size">
+            <td class="">{{ invitee.email }}</td>
+            <td class="">{{ invitee.first_name }}</td>
+            <td class="">{{ invitee.last_name }}</td>
+            <td class="">Pending</td>
+            <td class="roster-invitee-actions" ng-show="currentTeam.info.end_date==null"><div class="clearfix"><a class="roster-invitee-approve" ng-click="setInviteeStatus(invitee.team_member_id,true)">APPROVE <i class="fa fa-check"></i></a> <a class="roster-invitee-reject" ng-click="setInviteeStatus(invitee.team_member_id,false)">REJECT <i class="fa fa-times"></i></a></div></td>
+          </tr>
+        </table>
+        <div pagination="paginationInvites"></div>
+      </div>
+      
+      <div class="rosters-list roster-members">
+        <div class="sub-heading">
+          <h5>Team Members</h5>
+        </div>
+        <table class="list">
+          <tr>
+            <th ng-click="reverse=false;order('email', false)">Username</th>
+            <th ng-click="reverse=false;order('first_name', false)">First Name</th>
+            <th ng-click="reverse=!reverse;order('last_name', false)">Last Name</th>
+            <th ng-click="reverse=false;order('status', false)">Status</th>
+            <th ng-show="currentTeam.info.end_date==null"></th>
+          </tr>
+          <tr ng-repeat="member in currentTeam.members | startFrom:paginationMembers.current*paginationMembers.size | limitTo:paginationMembers.size">
+            <td class="">{{ member.email }}</td>
+            <td class="">{{ member.first_name }}</td>
+            <td class="">{{ member.last_name }}</td>
+            <td class="">Approved</td>
+            <td class="roster-member-actions" ng-show="currentTeam.info.end_date==null"><a class="roster-member-remove" ng-click="removeMember(member.team_member_id)" ><i class="fa fa-minus-circle"></i> REMOVE MEMBER</a></td>
+          </tr>
+        </table>
+        <div pagination="paginationMembers"></div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<div generic-modal="modal"></div>

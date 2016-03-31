@@ -1,0 +1,10 @@
+
+
+<div class="pagination clearfix" ng-hide="option.obj.length==0">
+	<a href="{{backurl}}" class="left pagination-page-back" ng-show="backurl != null"><span class="pagination-links-back sprite"></span>Back to Search</a>
+  <ul class="right pagination-links">
+    <li><button ng-disabled="option.current == 0" ng-click="option.current=option.current-1" class="pagination-links-back sprite">BACK</button></li>
+    <li>{{option.current+1}} of {{numberOfPages(option.obj,option.size)}}</li>
+    <li><button ng-disabled="option.current >= option.obj.length/option.size - 1" ng-click="option.current=option.current+1" class="pagination-links-next sprite">NEXT</button></li>
+  </ul>
+</div>

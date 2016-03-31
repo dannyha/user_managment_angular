@@ -1,0 +1,129 @@
+<div class="row">
+	<h3>PROMOTION ADMINISTRATION</h3>
+	<div class="pagination clearfix">
+		<div class="pagination clearfix">
+			<a href="#/overview" class="left pagination-page-back"><span
+				class="pagination-links-back sprite"></span>Back</a>
+			<div class="contests">
+				<ul class="right pagination-links">
+					<a href="" ng-click="addActionBox()" class="plus">ADD</a>
+				</ul>
+			</div>
+		</div>
+		<div class="divider">
+			<hr>
+		</div>
+	</div>
+
+	<div class="row columns-three">
+		<div class="column first sidenav" ng-include
+			src="'partials/promotion/promotion-side-nav.html'"></div>
+
+		<div class="columnRight">
+			<div>
+				<table class="list">
+					<tr>
+						<th>NAME</th>
+						<th>TARGET</th>
+						<th>ACTION TYPE</th>
+					</tr>
+					<tr ng-repeat="bpAction in bp_promotion_actions">
+						<td><a href="" ng-click="editActionBox(bpAction.action_code)">{{bpAction.name}}</a></td>
+						<td>{{bpAction.target}}</td>
+						<td>{{bpAction.action_type}}</td>
+						<td><a href="" ng-click="deleteAction(bpAction.action_code)"
+							class="delete">DELETE</a></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+
+		<div class="wrapper hidden" fancybox>
+			<div class="future_fancybox_content">
+
+				<div class="rewardsBox" ng-show="overlayType == 'editAction'">
+					<h4 class="edit">Edit Action</h4>
+					<form name="editForm" ng-submit="editAction()">
+						<div class="edit">
+							<label style="display: inline-block; width: 180px;">NAME
+							</label> <input type="text" ng-model="actionToEdit.name"
+								value={{actionToEdit.name}}>
+						</div>
+
+						<div class="edit">
+							<label style="display: inline-block; width: 180px;">
+							ACTION TYPE
+							</label>
+							<select name="action-type"
+								ng-options="actionType as actionType.n for actionType in $root.promotionActionTypes"
+								ng-model="actionToEdit.action_type"
+								ng-change="editActionTarget()">
+							</select>
+							<div class="sprite arrow"></div>
+						</div>
+
+						<div class="edit" ng-show="$root.isEnroll == 'ENROLL'">
+							<label style="display: inline-block; width: 160px;">TARGET</label>
+							<select name="contestType"
+								ng-options="contest.title_en as contest.title_en for contest in $root.promotionActionTargets"
+								ng-model="actionToEdit.target">
+							</select>
+						</div>
+
+						<div class="edit" ng-show="$root.isEnroll == 'INCREMENT'">
+							<label style="display: inline-block; width: 160px;">TARGET</label>
+							<select name="offerType"
+								ng-options="offer.offerTitle as offer.offerTitle for offer in $root.promotionActionTargets"
+								ng-model="actionToEdit.target">
+							</select>
+						</div>
+
+						<div class="error" ng-bind="actionToEdit.error"></div>
+						<button type="submit">SUBMIT</button>
+						<button ng-click="deleteAction(actionToEdit.action_code)">DELETE</button>
+						<button type="button" ng-click="closeBox()">CANCEL</button>
+					</form>
+				</div>
+
+				<div class="rewardsBox" ng-show="overlayType == 'addAction'">
+					<h4 class="edit">Add ACTION</h4>
+					<form name="editForm" ng-submit="addAction()">
+						<div class="edit">
+							<label style="display: inline-block; width: 160px;">NAME</label>
+							<input type="text" ng-model="add.name">
+						</div>
+						<div class="edit">
+							<label style="display: inline-block; width: 160px;">ACTION
+								TYPE</label> <select name="actionType"
+								ng-options="actionType as actionType.n for actionType in $root.promotionActionTypes"
+								ng-model="add.action_type" ng-change="updateActionTarget(add.action_type.v)">
+								<option value="">Select</option>
+							</select>
+						</div>
+
+						<div class="edit" ng-show="$root.isEnroll == 'ENROLL'">
+							<label style="display: inline-block; width: 160px;">TARGET</label>
+							<select name="contestType"
+								ng-options="contest.title_en as contest.title_en for contest in $root.promotionActionTargets"
+								ng-model="add.target">
+								<option value="">Select</option>
+							</select>
+						</div>
+
+						<div class="edit" ng-show="$root.isEnroll == 'INCREMENT'">
+							<label style="display: inline-block; width: 160px;">TARGET</label>
+							<select name="triggerType"
+								ng-options="offer.offerTitle as offer.offerTitle for offer in $root.promotionActionTargets"
+								ng-model="add.target">
+								<option value="">Select</option>
+							</select>
+						</div>
+
+						<div class="error" ng-bind="add.error"></div>
+						<button type="submit">ADD</button>
+						<button type="button" ng-click="closeBox()">CANCEL</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>

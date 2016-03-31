@@ -1,0 +1,11 @@
+
+<div class="wrapper hidden generic-popup" fancybox>
+  <div class="future_fancybox_content">
+    <div class="confirm" ng-if="viewBox == 'confirm'">
+      <div class="msg" ng-bind="confirmation"></div>
+      <div class="generic-popup-buttons clearfix" ng-class="(option.confirm==false) ? '':'singleButton'">
+        <button class="callAction" type="button" ng-click="callAction()" ng-show="option.confirm==false"><span>YES</span></button> <button class="closeAction" type="button" ng-click="closeBox()"><span>CLOSE</span></button>
+      </div>
+    </div>
+  </div>
+</div>

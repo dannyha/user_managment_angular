@@ -1,0 +1,27 @@
+<div class="row">
+
+  <h3>Search Results</h3>
+  <p class="small">There {{data.length == 1 && 'was' || 'were'}} <strong>{{data.length}}</strong> {{data.length == 1 && 'result' || 'results'}} found for your search.</p>
+  <div class="divider"><hr></div>
+
+  <div ng-if="teamHqSearchResults">
+    <div pagination="pagination" backurl="pagination.back"></div>
+    <table class="list">
+      <tr>
+        <th ng-click="reverse=false;order('name', false)">TEAM NAME</th>
+        <th ng-click="reverse=false;order('captain_email', false)">EMAIL</th>
+        <th ng-click="reverse=false;order('captain_first_name', false)">FIRST NAME</th>
+        <th ng-click="reverse=false;order('captain_last_name', false)">LAST NAME</th>
+        <th ng-click="reverse=false;order('store_name', false)">STORE NAME</th>
+      </tr>
+      <tr ng-model="numUsers" ng-repeat="team in data | startFrom:pagination.current*pagination.size | limitTo:pagination.size">
+        <td><a href="#/teamhq-overview/{{team.team_id}}">{{team.name}}</a></td>
+        <td>{{team.captain_email}}</td>
+        <td>{{team.captain_first_name}}</td>
+        <td>{{team.captain_last_name}}</td>
+        <td>{{team.store_name}}</td>
+      </tr>
+    </table>
+    <div pagination="pagination"></div>
+  </div>
+</div>

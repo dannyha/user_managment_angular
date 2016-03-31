@@ -1,0 +1,93 @@
+
+
+<div class="row">
+  <h3>TEAM ADMINISTRATION</h3>
+  <div class="pagination clearfix">
+    <a href="#/teamhq-results" class="left pagination-page-back"><span class="pagination-links-back sprite"></span>Back to Results</a>
+    <h2>{{currentTeam.info.name}}</h2>
+    
+  </div>
+  <div class="divider"><hr></div>
+</div>
+
+<div class="row columns-three">
+
+  <div class="column first sidenav" ng-include src="'partials/teamhq/teamhq-side-nav.html'"></div>
+
+  <div class="column teamhq-rewards">
+    <div class="preference">
+      <h4>Team Rewards</h4>
+
+      <div class="teamhq-reward-info">
+        <div>TOTAL SPEND: <span>{{currentTeam.info.spend | currency : symbol : fractionSize}}</span></div>
+        <div>CREDIT REDEEMED: <span>$0.00</span></div>
+        <div>FOOD CREDIT: <span>{{currentTeam.info.food_credit | currency : symbol : fractionSize}}</span></div>
+        <div>FOOD CREDIT EXPIRES ON: <input type="text" name="recipt"  ng-model="foodCredit.expiry" ui-date="dateOptions" /><button type="button" ng-click="saveFoodCreditExpiry()" ng-show="currentTeam.info.end_date==null"><span>Save</span></button></div>
+      </div>
+
+      <div class="teamhq-reward-form form" ng-show="currentTeam.info.end_date==null">
+        <h5>ADD FOOD CREDIT</h5>
+        <div render-tabs id="tabs" class="tabs">
+          <ul>
+            <li><a href="#tabs-1">Receipt Code</a></li>
+            <li><a href="#tabs-2">Dollar Amount</a></li>
+          </ul>
+          <div id="tabs-1">
+            <div class="fields">
+              <label>Enter Receipt Access Code:</label>
+              <input type="text" placeholder="XXXXX-XXXXX-XXXXX" ng-model="foodCredit.receipt" ng-change="checkReceiptInput();" />
+            </div>
+
+            <div class="fields">
+              <label>On Behalf Of:</label>
+              <div class="dropdown">
+                <div class="dropdown-box">{{foodCredit.memberSelected}}</div>
+                <select name="account-city" ng-options="member.first_name + ' ' + member.last_name for member in currentTeam.members" ng-model="foodCredit.member" ng-change="foodCreditMemberChanged()">
+                  <option value="" disabled>Select</option>
+                </select>
+                <div class="sprite arrow"></div>
+              </div>
+            </div>
+            <button type="button" ng-click="addFoodCreditReceipt()" ng-disabled="foodCredit.member==''||foodCredit.receipt.length!=17"><span>Submit</span></button>
+          </div>
+          <div id="tabs-2">
+            <div class="fields field-dollar-amount">
+              <label>Add Dollar Amount:</label>
+              <button type="button" ng-click="foodCredit.amount=5" ng-class="(foodCredit.amount==5)?'selected':''"><span>$5</span></button>
+              <button type="button" ng-click="foodCredit.amount=10" ng-class="(foodCredit.amount==10)?'selected':''"><span>$10</span></button>
+              <button type="button" ng-click="foodCredit.amount=15" ng-class="(foodCredit.amount==15)?'selected':''"><span>$15</span></button>
+            </div>
+            <button type="button" ng-click="addFoodCreditAmount()" ng-disabled="foodCredit.amount==0"><span>Add</span></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="teamhq-reward-transactions">
+        <div class="sub-heading">
+          <h4>Transaction History</h4>
+          <p>NOTE: Transactions appear in the CSP before they appear in the guest's profile. If approved, the transaction will typically appear in the guest's profile <strong>within 48 hours</strong>.</p>
+        </div>
+        <table class="list">
+          <tr>
+            <th ng-click="reverse=false;order('email', false)">Receipt Code Submitted</th>
+            <th ng-click="reverse=false;order('first_name', false)">Date Submitted</th>
+            <th ng-click="reverse=!reverse;order('last_name', false)">Approval Status</th>
+            <th ng-click="reverse=false;order('status', false)">Wallet Status</th>
+          </tr>
+          <tr ng-repeat="transaction in currentTransactions | startFrom:pagination.current*pagination.size | limitTo:pagination.size">
+            <td class=""><a href="#/transaction-overview/{{transaction.receipt_number}}">{{ transaction.receipt_number | bgReceiptNumber }}</a></td>
+            <td class="">{{ transaction.created_on }}</td>
+            <td class="">{{ transaction.receipt_status }}</td>
+            <td class="">{{ transaction.receipt_status }}</td>
+          </tr>
+        </table>
+        <div pagination="pagination"></div>
+      </div>
+
+
+    </div>
+  </div>
+
+</div>
+
+<div generic-modal="modal"></div>

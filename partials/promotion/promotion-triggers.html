@@ -1,0 +1,126 @@
+<div class="row">
+	<h3>PROMOTION ADMINISTRATION</h3>
+	<div class="pagination clearfix">
+		<div class="pagination clearfix">
+			<a href="#/overview" class="left pagination-page-back"><span
+				class="pagination-links-back sprite"></span>Back</a>
+			<div class="contests">
+				<ul class="right pagination-links">
+					<a href="" ng-click="addTriggerBox()" class="plus">ADD</a>
+				</ul>
+			</div>
+		</div>
+		<div class="divider">
+			<hr>
+		</div>
+	</div>
+
+	<div class="row columns-three">
+
+		<div class="column first sidenav" ng-include
+			src="'partials/promotion/promotion-side-nav.html'"></div>
+
+		<div class="columnRight">
+			<table class="list">
+				<tr>
+					<th>NAME</th>
+					<th>VALUE</th>
+					<th>TRIGGER FIELD</th>
+					<th>TRIGGER TYPE</th>
+				</tr>
+				<tr ng-repeat="bpTrigger in bp_promotion_triggers">
+					<td><a href="" ng-click="editTriggerBox(bpTrigger.trigger_code)">{{bpTrigger.name}}</a></td>
+					<td>{{bpTrigger.value}}</td>
+					<td>{{bpTrigger.trigger_field}}</td>
+					<td>{{bpTrigger.trigger_type}}</td>
+					<td><a href=""
+						ng-click="deleteTrigger(bpTrigger.trigger_code)" class="delete">DELETE</a></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+	<div class="wrapper hidden" fancybox>
+		<div class="future_fancybox_content">
+			<div class="rewardsBox" ng-if="overlayType == 'editTrigger'">
+				<h4 class="edit">Edit Trigger</h4>
+				<form name="editForm" ng-submit="editTrigger()">
+					<div class="edit">
+						<label style="display: inline-block; width: 100px;">NAME</label>
+						<input type="text" ng-model="triggerToEdit.name"
+							value={{triggerToEdit.name}}>
+					</div>
+
+					<div class="edit">
+						<label style="display: inline-block; width: 100px;">TRIGGER FIELD</label>
+						<select name="paytronix-wallet-code"
+							ng-options="triggerField.v as triggerField.v for triggerField in $root.promotionTriggerFields"
+							ng-model="triggerToEdit.trigger_field"
+							ng-change="editTriggerType()">
+						</select>
+						<div class="sprite arrow"></div>
+					</div>
+
+					<div class="edit">
+						<label style="display: inline-block; width: 100px;">TRIGGER TYPE</label>
+						<select name="paytronix-wallet-code"
+							ng-options="triggerType.v as triggerType.v for triggerType in $root.promotionTriggerTypes"
+							ng-model="triggerToEdit.trigger_type"
+							ng-disabled="editMenuItem()">
+						</select>
+						<div class="sprite arrow"></div>
+					</div>
+
+					<div class="edit">
+						<label style="display: inline-block; width: 100px;">VALUE</label>
+						<input type="text" ng-model="triggerToEdit.value"
+							value={{triggerToEdit.value}}>
+					</div>
+
+					<div class="error" ng-bind="triggerToEdit.error"></div>
+					<button type="submit">SUBMIT</button>
+					<button ng-click="deleteTrigger(triggerToEdit.trigger_code)">DELETE</button>
+					<button type="button" ng-click="closeBox()">CANCEL</button>
+				</form>
+			</div>
+
+			<div class="rewardsBox" ng-if="overlayType == 'addTrigger'">
+				<h4 class="edit">Add TRIGGER</h4>
+				<form name="editForm" ng-submit="addTrigger()">
+					<div class="edit">
+						<label style="display: inline-block; width: 100px;">NAME</label> <input
+							type="text" ng-model="add.name">
+					</div>
+
+					<div class="edit">
+						<label style="display: inline-block; width: 100px;">TRIGGER FIELD</label>
+						<select name="triggerField"
+							ng-options="triggerField as triggerField.n for triggerField in $root.promotionTriggerFields"
+							ng-model="add.trigger_field"
+							ng-change="addTriggerType()">
+							<option value="">Select</option>
+						</select>
+					</div>
+
+					<div class="edit">
+						<label style="display: inline-block; width: 100px;">TRIGGER
+							TYPE</label> <select name="triggerType"
+							ng-options="triggerType as triggerType.n for triggerType in $root.promotionTriggerTypes"
+							ng-model="add.trigger_type"
+							ng-disabled="isDisabled()">
+							<option value="">Select</option>
+						</select>
+					</div>
+
+					<div class="edit">
+						<label style="display: inline-block; width: 100px;">VALUE</label>
+						<input type="text" ng-model="add.value">
+					</div>
+					<div class="error" ng-bind="add.error"></div>
+					<button type="submit">ADD</button>
+					<button type="button" ng-click="closeBox()">CANCEL</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

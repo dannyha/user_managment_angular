@@ -1,0 +1,152 @@
+<div class="row">
+  <h3>GUEST ADMINISTRATION</h3>
+  <div class="pagination clearfix">
+    <button ng-click="historyBox()" class="right">HISTORY</button>
+    <a href="#/guest-results" class="left pagination-page-back"><span class="pagination-links-back sprite"></span>Back to Results</a>
+    <h2>{{guestInfo.first_name}} {{guestInfo.last_name}}</h2>
+    
+  </div>
+  <div class="divider"><hr></div>
+</div>
+
+<div class="row columns-two">
+
+  <div class="column first sidenav" ng-include src="'partials/guest/guest-side-nav.html'"></div>
+
+  <div class="column offer">
+    <div class="sub-heading">
+      <a href="" ng-click="addOfferBox()" class="plus">ADD</a>
+      <h4>BP REWARD</h4>
+    </div>
+    <div class="guestOffer">
+    <table class="list">
+      <tr>
+        <th ng-click="reverse=false;order('offerDescription', false)">DESCRIPTION</th>
+        <th ng-click="reverse=false;order('offerEndDate', false)">EXPIRATION</th>
+        <th ng-click="reverse=!reverse;order('offerBalance', false)">BALANCE</th>
+        <th ng-click="reverse=false;order('walletCode', false)">AVAILABILITY</th>
+      </tr>
+      <tr ng-repeat="offer in guestOffers" ng-click="editOfferBox(offer.walletCode)">
+        <td>{{offer.offerTitle}}</td>
+        <td>{{offer.offerEndDate | date:'yyyy-MM-dd HH:mm Z'}}</td>
+        <td ng-if="offer.walletCode != 10">{{offer.offerBalance}}</td><td ng-if="offer.walletCode == 10">{{offer.offerBalance | currency}}</td>
+        <td>{{offer.availability}}</td>
+      </tr>
+    </table>
+    </div>
+    
+    <div class="sub-heading">
+      <a href="" ng-click="addContestBox()" class="plus">ADD</a>
+      <h4>CONTEST</h4>
+    </div>
+    <div class="guestContest">
+    <table class="list">
+      <tr>
+        <th ng-click="reverse=false;order('offerDescription', false)">TITLE</th>
+        <th ng-click="reverse=false;order('offerEndDate', false)">DESCRIPTION</th>
+        <th ng-click="reverse=!reverse;order('offerBalance', false)">DATE ENTERED</th>
+        <th ng-click="reverse=false;order('walletCode', false)">END DATE</th>
+        <th ng-click="reverse=false;order('walletCode', false)">AVAILABILITY</th>
+      </tr>
+      <tr ng-repeat="contest in guestContests" ng-click="deleteGuestContest(contest.id)">
+        <td>{{contest.title}}</td>
+        <td>{{contest.description}}</td>
+        <td>{{contest.date_entered | date}}</td>
+        <td>{{contest.end_date | date}}</td>
+        <td>{{contest.availability}}</td>
+      </tr>
+    </table>
+    </div>
+  </div>
+  
+</div>
+
+<!-- Overlay -->
+<div class="wrapper hidden" fancybox>
+  <div class="future_fancybox_content">
+
+    <div class="rewardsBox" ng-if="overlayType == 'editOffer'">
+      <h4 class="edit">Edit Reward</h4>
+      <form name="editForm" ng-submit="editOffer()">
+        <div class="edit">
+          <label ng-bind="rewardToEdit.offerTitle"></label>
+          <input type="text" ng-model="edit.balance" ng-change="edit.error = ''" float-number>
+          <div class="error" ng-bind="edit.error"></div>
+        </div>
+        <button type="submit" >SUBMIT</button>
+        <button type="button" ng-click="closeBox()">CLOSE</button>
+      </form>
+    </div>
+
+    <div class="rewardsBox" ng-if="overlayType == 'addOffer'">
+      <h4 class="edit">Add a Reward</h4>
+      <form ng-submit="addOffer()">
+        <div class="add">  
+          <select ng-options="offer.wallet as offer.title for offer in allOffers" ng-model="add.offer" ng-change="addChange()" required>
+            <option value="">Offers</option>
+          </select>
+          <div>
+            <label ng-bind="type"></label>
+            <input type="text" ng-model="add.quantity" ng-change="add.error = ''" float-number>
+            <div class="error" ng-bind="add.error"></div>
+          </div>
+        </div>  
+        <button type="submit" >ADD</button>
+        <button type="button" ng-click="closeBox()">CLOSE</button>
+      </form>
+    </div>
+    
+    <div class="rewardsBox" ng-if="overlayType == 'addContest'">
+      <h4 class="edit">Add a Contest</h4>
+      <form ng-submit="addContest()">
+        <div class="add">  
+          <select ng-options="contest.contest as contest.title for contest in allContests" ng-model="add.contest" ng-change="addChange()" required>
+            <option value="">Contests</option>
+          </select>
+          <div>
+            <label ng-bind="type"></label>
+            <input type="text" ng-model="add.quantity" ng-change="add.error = ''" float-number>
+            <div class="error" ng-bind="add.error"></div>
+          </div>
+        </div>  
+        <button type="submit" >ADD</button>
+        <button type="button" ng-click="closeBox()">CLOSE</button>
+      </form>
+    </div>
+
+    <div class="history" ng-if="overlayType == 'offerHistory'">
+      <h4 ng-if="offerHistory.length == 0">No Offer History</h4>
+      <div ng-include src="'offerChanges.html'" ng-if="offerHistory.length > 0"></div>
+      <button type="button" class="right" ng-click="close_fancybox()"><span>OK</span></button>
+    </div>
+  </div>
+</div>
+<!-- Overlay end -->
+
+<script type="text/ng-template" id="offerChanges.html">
+  <div class="pagination clearfix">
+    <h4 class="left">OFFER HISTORY</h4>
+    <ul class="right pagination-links">
+      <li><button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1" class="pagination-links-back sprite">BACK</button></li>
+      <li><span ng-bind="currentPage+1"></span> of <span ng-bind="numberOfPages(offerHistory)"></span></li>
+      <li><button ng-disabled="currentPage >= offerHistory.length/pageSize - 1" ng-click="currentPage=currentPage+1" class="pagination-links-next sprite">NEXT</button></li>
+    </ul>
+  </div>
+  <table class="list">
+    <tr>
+      <th>DATE</th>
+      <th>OFFER NAME</th>
+      <th>LOCATION</th>
+      <th>QUANTITY</th>
+      <th>ACTION</th>
+    </tr>
+    <tr data-ng-repeat="item in offerHistory | startFrom:currentPage*pageSize | limitTo:pageSize" >
+      <td>{{item.transaction_date}}</td>
+      <td>{{item.offer_name}}</td>
+      <td>{{item.store_location}}</td>
+      <td ng-if="item.wallet_code != '10'">{{item.transaction}}</td>
+      <td ng-if="item.wallet_code == '10'">{{item.transaction | currency}}</td>
+      <td>{{item.action}}</td>
+    </tr>
+  </table>
+</script>

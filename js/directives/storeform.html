@@ -1,0 +1,29 @@
+
+
+<div class="full">
+  <div class="dropdown">
+    <div class="dropdown-box">{{province}}</div>
+    <select name="account-province" ng-options="province as province.n for province in $root.provinces" ng-model="teamHqStore.province" ng-change="changeProvince()">
+      <option value="">Province</option>
+    </select>
+    <div class="sprite arrow"></div>
+  </div>
+</div>
+<div class="full" ng-if="cList != ''">
+  <div class="dropdown">
+    <div class="dropdown-box">{{city}}</div>
+    <select name="account-city" ng-options="city as city for city in cList" ng-model="teamHqStore.city" ng-change="changeCity()">
+      <option value="">City</option>
+    </select>
+    <div class="sprite arrow"></div>
+  </div>
+</div>
+<div class="full" ng-if="city != 'City'">
+  <div class="dropdown">
+    <div class="dropdown-box">{{locations}}</div>
+    <select name="account-location" ng-options="loc.store_id as loc.name for loc in cLoc" ng-model="teamHqStore.bpStoreId" ng-change="changeLocations()">
+      <option>Locations</option>
+    </select>
+    <div class="sprite arrow"></div>
+  </div>
+</div>

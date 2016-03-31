@@ -1,0 +1,81 @@
+<div class="loading" ng-if="processingTransaction"></div>
+
+<div class="row">
+  <h3>MASTER TRANSACTION FINDER</h3>
+  <div class="pagination clearfix">
+    <a href="#/transaction-results" class="left pagination-page-back"><span class="pagination-links-back sprite"></span>Back to Results</a>
+  </div>
+  <div class="divider"><hr></div>
+</div>
+
+<div class="row columns-one">
+  <div class="column">
+    <h4>Transaction Details</h4>
+    <p>
+      <strong>Receipt Access Code:</strong> {{data.receipt_number | bgReceiptNumber}}<br />
+      <strong>Date:</strong> {{data.date | toDate}}<br />
+      <strong>Store:</strong> {{data.store_name}}
+    </p>
+    <table class="list">
+      <tr>
+        <th ng-click="reverse=false;order('item_name', false)">ITEM NAME</th>
+        <th ng-click="reverse=false;order('quantity', false)">QUANTITY</th>
+        <th ng-click="reverse=false;order('total', false)">TOTAL</th>
+      </tr>
+      <tr ng-repeat="item in data.items | startFrom:paginationItems.current*paginationItems.size | limitTo:paginationItems.size">
+        <td>{{item.item_name}}</td>
+        <td>{{item.num_sold}}</td>
+        <td>{{item.sales_amt | currency : symbol : fractionSize}}</td>
+      </tr>
+    </table>
+    <div pagination="paginationItems"></div>
+  </div>
+</div>
+
+<div class="row columns-one">
+  <div class="column">
+    <div class="transaction-reward-guest transaction-reward-guest-search" ng-if="currentTransaction.rewardGuestResults == false">
+      <h4>Reward this MyBP Guest:</h4>
+      <p>Enter a MyBP guest's email in order to see if they're elligble for rewards: </p>
+      <form class="form" ng-submit="rewardGuest()">
+        <div class="fields">
+          <label>MyBP Guest Email</label>
+          <input type="text" ng-model="currentTransaction.transactionRewardGuest" />
+        </div>
+        <button type="submit"><span>Find</span></button>
+      </form>
+    </div>
+    <div class="transaction-reward-guest transaction-reward-guest-results" ng-if="currentTransaction.rewardGuestResults == true">
+      <h4>Submit receipt for: {{currentTransaction.transactionRewardGuest}}</h4>
+      <div class="pagination clearfix">
+        <a ng-click="backRewardGuestSearch();" class="left pagination-page-back"><span class="pagination-links-back sprite"></span>Back to User Search</a>
+      </div>
+      <p>NOTE: Transactions appear in the CSP before they appear in the guest's profile. If approved, the transaction will typically appear in the guest's profile within 48 hours.</p>
+      <p>Receipts can only be assigned to a maximum of one team.</p>
+      <p>If the receipt has been submitted to a Team HQ team, but has not yet been approved, the transaction can be cancelled and added to another team.</p>
+      <table class="list">
+        <tr>
+          <th ng-click="reverse=false;order('team_name', false)">PROMOTION</th>
+          <th ng-click="reverse=false;order('receipt_status', false)">SUBMIT STATUS</th>
+          <th ng-click="reverse=false;order('receipt_status', false)">APPROVAL STATUS</th>
+          <th ng-click="reverse=false;order('receipt_status', false)">WALLET STATUS</th>
+        </tr>
+        <tr ng-repeat="transaction in currentTransaction.guestTransactions | startFrom:paginationTeams.current*paginationTeams.size | limitTo:paginationTeams.size">
+          <td>{{transaction.team_name}}</td>
+          <td>
+            {{(transaction.receipt_status !== null) ? 'Submitted' : 'Not Submitted'}}
+            <span ng-hide="transaction.receipt_status=='APPROVED'||transaction.receipt_status=='DECLINED'">
+              <button type="button" ng-click="cancelReceipt(transaction)" ng-hide="transaction.receipt_status === null"><span>CANCEL</span></button>
+              <button type="button" ng-click="submitReceipt(transaction)" ng-hide="transaction.receipt_status !== null"><span>SUBMIT</span></button>
+            </span>
+          </td>
+          <td>{{(transaction.receipt_status !== null) ? transaction.receipt_status : 'n/a'}}</td>
+          <td>{{(transaction.receipt_status !== null) ? transaction.receipt_status : 'n/a'}}</td>
+        </tr>
+      </table>
+      <div pagination="paginationTeams"></div>
+    </div>
+  </div>
+</div>
+
+<div generic-modal="modal"></div>

@@ -1,0 +1,55 @@
+<div class="row columns-three">
+
+  <form name="createAccountForm" ng-submit="runLogin(user)" class="form" ng-class="{hidden: hideForm==true}">
+
+    <div class="intro">
+      <h3>USER ADMINISTRATION</h3>
+      <div class="divider sprite"></div>
+      <h2>CREATE AN ACCOUNT</h2>
+      <p class="small">WE'RE ADDING NEW MEMBERS TO OUR TEAM! (*) REPRESENTS REQUIRED FIELDS.</p>
+    </div>
+
+    <div class="clearfix">
+      <div class="column first">
+        <label for="username">USER NAME</label>
+        <input type="email" name="username" class="login-username" ng-model="user.name" />
+        <div class="note">
+          <p><strong>CUSTOMER SERVICE REP</strong></p>
+          <p>This user can Add, Remove, and Edit Guest Info. They may also view Guest Activity and Statistics.</p>
+        </div>
+      </div>
+
+      <div class="column">
+        <label for="username">USER NAME</label>
+        <input type="email" name="username" class="login-username" ng-model="user.name" />
+        <label for="username">USER NAME</label>
+        <input type="email" name="username" class="login-username" ng-model="user.name" />
+        <label for="username">USER NAME</label>
+        <input type="email" name="username" class="login-username" ng-model="user.name" />
+      </div>
+
+      <div class="column last">
+        <label for="username">USER NAME</label>
+        <input type="email" name="username" class="login-username" ng-model="user.name" />
+        <label for="username">USER NAME</label>
+        <input type="email" name="username" class="login-username" ng-model="user.name" />
+        <label for="account-status">ACCOUNT STATUS</label>
+        <div class="dropdown">
+          <div class="dropdown-box">{{account.status}}</div>
+          <select name="account-status" ng-model="account.status" ng-change="changeStatus()">
+            <option>Active</option>
+            <option>Inactive</option>
+          </select>
+          <div class="sprite arrow"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="btns">
+      <button type="button" class="gray btn-cancel"><span>CANCEL</span></button>
+      <button type="submit" class="red"><span>ADD USER</span></button>
+    </div>
+
+  </form>
+
+</div>

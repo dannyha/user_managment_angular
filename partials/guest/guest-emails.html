@@ -1,0 +1,36 @@
+<div class="row">
+  <h3>GUEST ADMINISTRATION</h3>
+  <div class="pagination clearfix">
+    <a href="#/guest-results" class="left pagination-page-back"><span class="pagination-links-back sprite"></span>Back to Results</a>
+    <h2>{{guestInfo.first_name}} {{guestInfo.last_name}}</h2>
+    
+  </div>
+  <div class="divider"><hr></div>
+</div>
+
+<div class="row columns-three">
+
+  <div class="column first sidenav" ng-include src="'partials/guest/guest-side-nav.html'"></div>
+
+  <div class="column">
+    <button type="button" class="" ng-click="email_welcome()"><span>WELCOME</span></button><br />
+    <button type="button" class="" ng-click="email_birthday()"><span>BIRTHDAY</span></button><br />
+    <button type="button" class="" ng-click="email_birthdayReminder()"><span>BIRTHDAY REMINDER</span></button><br />
+    <button type="button" class="" ng-click="email_anniversary()"><span>ANNIVERSARY</span></button><br />
+    <button type="button" class="" ng-click="email_inactive()"><span>INACTIVE</span></button><br />
+    <button type="button" class="" ng-click="email_orderReminder()"><span>ORDER REMINDER</span></button><br />
+  </div>
+</div>
+
+
+<div class="wrapper hidden" fancybox>
+  <div class="future_fancybox_content">
+
+    <!-- Action Confirmation overlay -->
+    <div class="confirm" ng-if="viewBox == 'confirm'">
+      <div class="msg" ng-bind="confirmation"></div>
+      <button type="button" ng-click="closeBox()"><span>CLOSE</span></button>
+    </div>
+
+  </div>
+</div>

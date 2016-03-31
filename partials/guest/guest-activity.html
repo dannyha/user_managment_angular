@@ -1,0 +1,25 @@
+<div class="row">
+  <h3>GUEST ADMINISTRATION</h3>
+  <div class="pagination clearfix">
+    <a href="#/guest-results" class="left pagination-page-back"><span class="pagination-links-back sprite"></span>Back to Results</a>
+    <h2>{{guestInfo.first_name}} {{guestInfo.last_name}}</h2>
+    
+  </div>
+  <div class="divider"><hr></div>
+</div>
+
+<div class="row columns-three">
+
+  <div class="column first sidenav" ng-include src="'partials/guest/guest-side-nav.html'"></div>
+
+  <div class="column results">
+    <div class="info">
+      <p class="right">Registration Type: <span ng-if="chartData.joinSource">{{chartData.joinSource | titleCase}}</span></p>
+      <p class="left">Last Login Date: <span ng-if="chartData.lastLoginOn">{{chartData.lastLoginOn}}</span><span ng-if="!chartData.lastLoginOn">N/A</span></p>
+      <p class="center">Registration Date: <span ng-ig="chartData.registeredOn">{{chartData.registeredOn | date : 'yyyy-MM-dd'}}</span></p>
+    </div>
+    <div id="chart1"></div>
+    <br><div class="divider"><hr></div><br>
+    <div id="chart2"></div>
+  </div>
+</div>

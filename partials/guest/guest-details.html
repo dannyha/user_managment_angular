@@ -1,0 +1,256 @@
+<div class="row">
+  <h3>GUEST ADMINISTRATION</h3>
+  <div class="pagination clearfix">
+    <button ng-click="historyBox()" class="right">HISTORY</button>
+    <a href="#/guest-results" class="left pagination-page-back"><span class="pagination-links-back sprite"></span>Back to Results</a>
+    <h2>{{guestInfo.first_name}} {{guestInfo.last_name}}</h2>
+    
+  </div>
+  <div class="divider"><hr></div>
+</div>
+
+<div class="row columns-three">
+
+  <div class="column first sidenav" ng-include src="'partials/guest/guest-side-nav.html'"></div>
+
+  <div class="column">
+    <div ng-if="currentGuestInfo.social_id">
+      <h4>SOCIAL LOGIN</h4>
+      <button class="social" ng-click="unlinkSocial()">
+        <span class="center" >UNLINK FACEBOOK</span>
+      </button>
+      <div class="divider"><hr></div>
+    </div>
+    <form name="editGuestForm" ng-submit="editGuest()" class="form" ng-class="{hidden: hideForm==true}">
+      <div class="user-info clearfix">
+        <h4>GUEST DETAILS</h4>
+        <label for="firstname">FIRST NAME*</label>
+        <input type="text" name="firstname" class="login-firstname" ng-model="guestInfo.first_name" required />
+        <label for="lastname">LAST NAME*</label>
+        <input type="text" name="lastname" class="login-lastname" ng-model="guestInfo.last_name" required />
+        <label for="email">E-MAIL ADDRESS*</label>
+        <input type="email" name="lastname" class="login-email" ng-model="guestInfo.email" required />
+        <button type="button" class="right" ng-click="passwordReset()"><span>PASSWORD RESET</span></button>
+      </div>
+      
+      <div class="more-info clearfix">
+        <label for="phonenumber">PHONE NUMBER*</label>
+        <input type="text" name="phonenumber" class="login-phonenumber" ng-model="guestInfo.phone_number" ng-minlength="10" ng-maxlength="12" numbers-only required />
+        <label for="mybp">MY BP</label>
+        <div class="user-bp" ng-if="mybp.store_id != '888'">
+          <p>{{storeInfo.name}}</p>
+          <button type="button" ng-click="mybp.store_id = '888'">CHANGE LOCATION</button>
+        </div>
+        <div class="pick-bp" ng-if="mybp.store_id == '888'">
+          <div class="full">
+            <div class="dropdown">
+              <div class="dropdown-box">{{province}}</div>
+              <select name="account-province" ng-options="province as province.n for province in $root.provinces" ng-model="mybp.province" ng-change="changeProvince()">
+                <option value="">Provice</option>
+              </select>
+              <div class="sprite arrow"></div>
+            </div>
+          </div>
+          <div class="full" ng-if="cList != ''">
+            <div class="dropdown">
+              <div class="dropdown-box">{{city}}</div>
+              <select name="account-city" ng-options="city as city for city in cList" ng-model="mybp.city" ng-change="changeCity()">
+                <option value="">City</option>
+              </select>
+              <div class="sprite arrow"></div>
+            </div>
+          </div>
+          <div class="full" ng-if="city != 'City'">
+            <div class="dropdown">
+              <div class="dropdown-box">{{locations}}</div>
+              <select name="account-location" ng-options="loc.store_id as loc.name for loc in cLoc" ng-model="guestInfo.store_id" ng-change="changeLocations()">
+                <option>Locations</option>
+              </select>
+              <div class="sprite arrow"></div>
+            </div>
+          </div>
+        </div>
+
+        <label for="language">Language</label>
+        <div class="full">
+          <div class="dropdown">
+            <div class="dropdown-box">{{langValue.n}}</div>
+            <select name="language" ng-options="language as language.n for language in $root.languages" ng-model="langValue" ng-change="changeLanguage()">
+            </select>
+            <div class="sprite arrow"></div>
+          </div>
+        </div>
+
+        <label for="acctnum">BIRTHDAY*</label>
+        <input type="text" name="birthday" placeholder="MM-DD" class="login-acountnumber" ng-pattern="/^((\d{1,2})-(\d{1,2}))/" ng-model="birthday" birthday required />
+
+        <label for="gender">Gender</label>
+        <div class="full">
+          <div class="dropdown">
+            <div class="dropdown-box">{{genderValue.n}}</div>
+            <select name="language" ng-options="gender as gender.n for gender in $root.genders" ng-model="genderValue" ng-change="changeGender()">
+            </select>
+            <div class="sprite arrow"></div>
+          </div>
+        </div>
+        
+        <label for="ageRange">Age Range</label>
+        <div class="full">
+          <div class="dropdown">
+            <div class="dropdown-box">{{ageRangeValue.n}}</div>
+            <select name="language" ng-options="ageRange as ageRange.n for ageRange in $root.ageRanges" ng-model="ageRangeValue" ng-change="changeAgeRange()">
+            </select>
+            <div class="sprite arrow"></div>
+          </div>
+        </div>
+        
+        <label for="email">PAYTRONIX ID*</label>
+        <input type="text" name="paytronix_id" class="login-paytronix" ng-model="guestInfo.paytronix_id" />
+
+        <div class="errors">
+          <br>
+          <span ng-show="editGuestForm.birthday.$error.pattern">&bullet; Invalid birthday format</span>
+          <span ng-show="paytronix_error">{{paytronix_error}}</span><br />
+          <span>{{serverError}}</span>
+        </div>
+
+        <button ng-show="!guestInfo.paytronix_id" type="button" class="right" ng-click="registerPaytronix()"><span>ADD PAYTRONIX</span></button>
+
+      </div>
+      <div class="btns right">
+        <button type="button" ng-click="backBtn()"><span>CANCEL</span></button>
+        <button type="submit"><span>SAVE</span></button>
+      </div>
+    </form>
+  </div>
+
+  <div class="column last">
+    <h4>ADDRESS(ES)</h4>
+    <div class="addresses" ng-if="addresses != undefined">
+      <div class="address" ng-repeat="address in addresses">
+        <div class="nickname">{{address.nickname}}</div>
+        <div class="street">{{address.address_1}}</div>
+        <div class="street" ng-if="address_2 != ''">{{address.address_2}}</div>
+        <div class="cityprov">{{address.city}}, {{address.province}}</div>
+        <div class="postalcode">{{address.postal_code}}</div>
+        <a href="" ng-click="editAddress(address.address_id)">EDIT ADDRESS</a><br>
+        <a href="" ng-click="removeAddress(address.address_id)">REMOVE ADDRESS</a>
+      </div>
+    </div>
+    <button type="button" ng-click="addAddresses()" class="gray right"><span>ADD AN ADDRESS</span></button>
+  </div>
+
+</div>
+
+<div class="wrapper hidden" fancybox>
+  <div class="future_fancybox_content">
+    <!-- New address forum overlay -->
+    <div class="addressForm" ng-if="viewBox == 'address'">
+      <h4>ENTER A NEW ADDRESS</h4>
+      <form name="addressForm" class="form" ng-submit="addressAdder()">
+        <label for="description">Description</label>
+        <input type="text" id="description" ng-model="theAddress.nickname">
+        <label for="address1">Address*</label>
+        <input type="text" id="address1" ng-model="theAddress.address_1" required>
+        <label for="address_2">Address 2</label>
+        <input type="text" id="address_2" ng-model="theAddress.address_2">
+        <label for="city">City*</label>
+        <input type="text" id="city" ng-model="theAddress.city" required>
+        <label for="province">Province*</label>      
+        
+        <select name="account-status" ng-options="province.v as province.n for province in $root.provinces" ng-model="theAddress.province" required>
+          <option value="">Provice</option>
+        </select>
+          
+        <label for="postal_code">Postal Code*</label>
+        <input type="text" id="postal_code" ng-model="theAddress.postal_code" capitalize required>
+        <div class="error" ng-bind="serverReply"></div>
+        <div class="btns right">
+          <button type="button" ng-click="closeBox()"><span>CANCEL</span></button>
+          <button type="submit"><span>OK</span></button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Change history overlay -->
+    <div class="history" ng-if="viewBox == 'history'">
+      <div ng-include src="'guestChanges.html'" ng-if="historyData"></div>
+      <br>
+      <div ng-include src="'guestAddressChanges.html'" ng-if="addressHistoryData"></div>
+      <button type="button" class="right" ng-click="closeBox()"><span>OK</span></button>
+    </div>
+
+    <!-- Action Confirmation overlay -->
+    <div class="confirm" ng-if="viewBox == 'confirm'">
+      <div class="msg" ng-bind="confirmation"></div>
+      <button type="button" ng-click="closeBox()"><span>CLOSE</span></button>
+    </div>
+  </div>
+</div>
+
+<script type="text/ng-template" id="guestChanges.html">
+  <div class="pagination clearfix">
+    <h4 class="left">PROFILE CHANGE HISTORY</h4>
+    <ul class="right pagination-links">
+      <li><button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1" class="pagination-links-back sprite">BACK</button></li>
+      <li><span ng-bind="currentPage+1"></span> of <span ng-bind="numberOfPages(historyData)"></span></li>
+      <li><button ng-disabled="currentPage >= historyData.length/pageSize - 1" ng-click="currentPage=currentPage+1" class="pagination-links-next sprite">NEXT</button></li>
+    </ul>
+  </div>
+  <table class="list">
+    <tr>
+      <th>DATE</th>
+      <th>SOCIAL</th>
+      <th>FIRST NAME</th>
+      <th>LAST NAME</th>
+      <th>EMAIL</th>
+      <th>OPT-IN</th>
+      <th>PHONE NUMBER</th>
+      <th>BIRTHDAY</th>
+      <th>STORE</th>
+    </tr>
+    <tr data-ng-repeat="item in historyData | startFrom:currentPage*pageSize | limitTo:pageSize" >
+      <td>{{item.date}}</td>
+      <td ng-class="{changed: item.social_changed}">{{item.social}}</td>
+      <td ng-class="{changed: item.first_name_changed}">{{item.first_name}}</td>
+      <td ng-class="{changed: item.last_name_changed}">{{item.last_name}}</td>
+      <td ng-class="{changed: item.email_changed}">{{item.email}}</td>
+      <td ng-class="{changed: item.opt_in_changed}">{{item.opt_in}}</td>
+      <td ng-class="{changed: item.phone_number_changed}">{{item.phone_number | tel}}</td>
+      <td ng-class="{changed: item.birthday_changed}">{{item.birthday | date: 'MM-dd'}}</td>
+      <td ng-class="{changed: item.store_changed}">{{item.store}}</td>
+    </tr>
+  </table>
+</script>
+
+<script type="text/ng-template" id="guestAddressChanges.html">
+  <div class="pagination clearfix">
+    <h4 class="left">ADDRESS CHANGE HISTORY</h4>
+    <ul class="right pagination-links">
+      <li><button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1" class="pagination-links-back sprite">BACK</button></li>
+      <li><span ng-bind="currentPage+1"></span> of <span ng-bind="numberOfPages(addressHistoryData)"></span></li>
+      <li><button ng-disabled="currentPage >= addressHistoryData.length/pageSize - 1" ng-click="currentPage=currentPage+1" class="pagination-links-next sprite">NEXT</button></li>
+    </ul>
+  </div>
+  <table class="list">
+    <tr>
+      <th>DATE</th>
+      <th>NICKNAME</th>
+      <th>ADDRESS</th>
+      <th>ADDRESS 2</th>
+      <th>CITY</th>
+      <th>POSTAL CODE</th>
+      <th>PROVINCE</th>
+    </tr>
+    <tr data-ng-repeat="item in addressHistoryData | startFrom:currentPage*pageSize | limitTo:pageSize" ng-class="{newAdded: item.address_added}">
+      <td ng-class="{changed: item.address_removed}">{{item.date}}</td>
+      <td ng-class="{changed: item.address_removed}" ng-if="item.address_removed" colspan="6">ADDRESS WAS REMOVED</td>
+      <td ng-class="{changed: item.nickname_changed}" ng-if="!item.address_removed">{{item.nickname}}</td>
+      <td ng-class="{changed: item.address_1_changed}" ng-if="!item.address_removed">{{item.address_1}}</td>
+      <td ng-class="{changed: item.address_2_changed}" ng-if="!item.address_removed">{{item.address_2}}</td>
+      <td ng-class="{changed: item.city_changed}" ng-if="!item.address_removed">{{item.city}}</td>
+      <td ng-class="{changed: item.postal_code_changed}" ng-if="!item.address_removed">{{item.postal_code}}</td>
+      <td ng-class="{changed: item.province_changed}" ng-if="!item.address_removed">{{item.province}}</td>
+    </tr>
+  </table>
+</script>

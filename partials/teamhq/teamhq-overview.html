@@ -1,0 +1,45 @@
+<div class="row">
+  <h3>TEAM ADMINISTRATION</h3>
+  <div class="pagination clearfix">
+    <a href="#/teamhq-results" class="left pagination-page-back"><span class="pagination-links-back sprite"></span>Back to Results</a>
+    <h2>{{currentTeam.info.name}}</h2>
+    
+  </div>
+  <div class="divider"><hr></div>
+</div>
+
+<div class="row columns-three">
+
+  <div class="column first sidenav" ng-include src="'partials/teamhq/teamhq-side-nav.html'"></div>
+
+  <div class="column">
+    <div class="preference">
+      <h4>Team Overview</h4>
+      <p class="description">To edit team information click Edit Profile, Edit Roster, or Edit Rewards on the left-hand side. </p>
+
+      <div class="teamhq-details">
+        <h5>PROFILE: <a href="#/teamhq-edit-profile/{{team_id}}">edit</a></h5>
+        <ul>
+          <li>Team Name: <span>{{currentTeam.info.name}}</span></li>
+          <li>Home Store: <span>{{currentTeam.info.store_name}}</span></li>
+          <li>Captain's Name: <span>{{currentTeam.info.captain_first_name}} {{currentTeam.info.captain_last_name}}</span></li>
+        </ul>
+
+        <h5>ROSTER: <a href="#/teamhq-edit-roster/{{team_id}}">edit</a></h5>
+        <ul>
+          <li><span>{{currentTeam.members.length}}</span> Players</li>
+          <li><span>{{currentTeam.invites.length}}</span> Pending Invitations</li>
+        </ul>
+
+        <h5>REWARDS: <a href="#/teamhq-edit-rewards/{{team_id}}">edit</a></h5>
+        <ul>
+          <li>Spend: <span>{{currentTeam.info.spend | currency : symbol : fractionSize}}</span></li>
+          <li>Food Credit: <span>{{currentTeam.info.food_credit | currency : symbol : fractionSize}}</span></li>
+          <li>Food Credit Expiry Date: <span>{{currentTeam.info.anniversary | toDate : getDate}}</span></li>
+        </ul>
+
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,52 @@
+
+<div class="row columns-two">
+  <h3>User Administration</h3>
+  <div class="divider"><hr></div>
+  <form name="searchAccountForm" ng-submit="findUser()" class="form" ng-class="{hidden: hideForm==true}">
+
+    <div class="clearfix">
+      <div class="column first">
+        <h2>FIND A USER</h2>
+        <p>For all things regarding changes, tweeks, and edits when it comes to our administrator profiles.</p>
+        <div class="fields">
+          <label for="role">ROLE</label>
+          <div class="dropdown">
+            <div class="dropdown-box">{{status}}</div>
+              <select name="account-status" ng-options="aType as aType.name for aType in accountTypes" ng-model="role" ng-change="changeStatus()">
+                <option value="">SELECT ROLE</option>
+              </select>
+            <div class="sprite arrow"></div>
+          </div>
+          <label for="email">EMAIL</label>
+          <input type="text" name="email" class="login-username" ng-model="serchData.email" />
+          <label for="firstname">FIRST NAME</label>
+          <input type="text" name="firstname" class="login-firstname" ng-model="serchData.firstName" />
+          <label for="lastname">LAST NAME</label>
+          <input type="text" name="lastname" class="login-lastname" ng-model="serchData.lastName" />
+          <label for="contact">CONTACT NUMBER</label>
+          <input type="text" class="login-contactnumber" ng-model="serchData.phoneNumber" numbers-only />
+        </div>
+        <div class="btns">
+          <button type="button" class="gray btn-cancel" ng-click="reset()"><span>CLEAR FIELDS</span></button><br>
+          <button type="submit" class="gray"><span>FIND</span></button>
+        </div>
+      </div>
+
+      <div class="column">
+        <h2>add a new user</h2>
+        <p>Our team has grown! click below to create a new <br>user account.</p>
+        <div class="btns">
+          <button type="button" class="gray" ng-click="newUser()"><span>CREATE ACCOUNT</span></button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+</div>
+<div class="wrapper hidden" fancybox>
+  <div class="future_fancybox_content center">
+    <br>
+    <p>No one found</p>
+    <button type="button" ng-click="close_fancybox()"><span>CLOSE</span></button>
+  </div>
+</div>

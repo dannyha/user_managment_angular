@@ -1,0 +1,38 @@
+<div class="row center">
+  <img src="img/banner_csp.jpg" alt="" class="banner">
+</div>
+<div class="row columns-three">
+
+  <form name="loginForm" ng-submit="runLogin()" class="form" >
+
+    <div class="intro">
+      <h2>SIGN IN</h2>
+    </div>
+    <div class="column first">
+      <label for="username">USER NAME</label>
+      <input type="email" name="username" class="login-username" ng-model="credentials.username" placeholder="Email Address"autocomplete="off" required />
+    </div>
+    <div class="column">
+      <label for="password">PASSWORD</label>
+      <input type="password" name="password" class="login-password" ng-model="credentials.password" autocomplete="off" required />
+      <span class="small right">Forgot your password? <a href="#/reset-pass" class="login-forgot">Click Here.</a></span>
+    </div>
+
+    <div class="column btns lastb">
+      <button type="submit" class="gray"><span>ENTER</span></button>
+    </div>
+    <div class="errors">
+      <span ng-show="loginForm.username.$error.email">&bullet; Invalid email</span>
+      <span>{{serverReply}}</span>
+    </div>
+  </form>
+
+</div>
+
+<div class="wrapper hidden" fancybox>
+  <div class="future_fancybox_content center">
+    <br>
+    <p ng-bind="message"></p>
+    <button type="button" ng-click="close_fancybox()"><span>CLOSE</span></button>
+  </div>
+</div>

@@ -1,0 +1,190 @@
+<div class="row">
+  <h3>GUEST ADMINISTRATION</h3>
+  <div class="pagination clearfix">
+    <a href="#/guest-results" class="left pagination-page-back"><span class="pagination-links-back sprite"></span>Back to Results</a>
+    <h2>{{guestInfo.first_name}} {{guestInfo.last_name}}</h2>
+  </div>
+  <div class="divider"><hr></div>
+</div>
+
+<div class="row columns-two">
+
+  <div class="column first sidenav" ng-include src="'partials/guest/guest-side-nav.html'"></div>
+
+  <div class="column offer">
+    <div class="sub-heading">
+      <h4>UNLOCK YOUR SPECIAL OFFERS!</h4>
+      <p>Got a Receipt ID or Kids Card? Select one of the options below and enter to receive any of our current special offers.</p>
+    </div>
+    <div class="guestOffer">
+      <ul id="accordion1" class="accordion">
+        <li ng-class="setActiveReceipt">
+          <a class="accordion-section-heading" ng-click="toggleView('setActiveReceipt')">
+            <img class="accordion-header-img" src="img/receipt_en.png">
+            <div class="centered-accordion-title">
+              receipt id
+            </div>
+            <div href="#" class="expand">+</div>
+            <div href="#" class="collapse">-</div>
+          </a>
+          <ul id="receipt-template-target">
+            <form name="receiptForm" class="accordion-content" ng-submit="submitCoupon('receipt')"> 
+              <div class="success" ng-hide="submitError.receipt.success">
+                · Your coupon has been submitted.
+              </div>
+              <div class="error" ng-hide="submitError.receipt.invalid">
+                · Please enter a valid 15 digit Receipt ID.&nbsp;
+              </div>
+              <div class="error" ng-hide="submitError.receipt.used">
+                · Receipt ID has already been entered.&nbsp;
+              </div>
+              <div class="error" ng-hide="submitError.receipt.none">
+                · No current offers.&nbsp;
+              </div>
+              <h5>
+                ENTER YOUR RECEIPT ID
+              </h5>
+              <div class="input-container clearfix">
+                <input type="text" name="value" placeholder="XXXXX-XXXXX-XXXXX" ng-model="coupon.receipt.value">
+                <button type="submit" class="unlock-offer-btn">
+                  SUBMIT
+                </button>
+              </div>
+              <div class="receipt-rule-copy">
+                <h5>BELOW ARE THE CURRENTLY RUNNING OFFERS:</h5>
+                <ul ng-repeat="rule in receiptRules">
+                  <li><strong>{{ rule.name_en }}</strong> {{ rule.description_en }}</li>
+                </ul>
+              </div>
+            </form>
+          </ul>
+        </li>
+        <li class="accordian-promo" ng-class="setActivePromo">
+          <a class="accordion-section-heading" ng-click="toggleView('setActivePromo')">
+            <img class="accordion-header-img" src="img/offer_en.png">
+            <div class="centered-accordion-title">
+              promo code
+            </div>
+            <div href="#" class="expand">+</div>
+            <div href="#" class="collapse">-</div>
+          </a>
+          <ul id="promo-template-target">
+            <form name="promoForm" class="accordion-content" ng-submit="submitCoupon('offer')"> 
+              <div class="success" ng-hide="submitError.offer.success">
+                · Your Promo Code has been submitted.
+              </div>
+              <div class="error" ng-hide="submitError.offer.invalid">
+                · The Promo Code you entered does not exist. Please enter a valid Promo Code.&nbsp;
+              </div>
+              <div class="error" ng-hide="submitError.offer.used">
+                · Promo Code has already been entered.&nbsp;
+              </div>
+              <div class="error" ng-hide="submitError.offer.none">
+                · No current offers.&nbsp;
+              </div>
+              <h5>
+                ENTER YOUR PROMO CODE
+              </h5>
+              <div class="input-container clearfix">
+                <input type="text" name="value" placeholder="" ng-model="coupon.offer.value">
+                <button type="submit" class="unlock-offer-btn">
+                  SUBMIT
+                </button>
+              </div>
+              <div class="form-sub-copy">
+                Enter a Promo Code to instantly add an offer to your MyBP account
+              </div>
+            </form>
+          </ul>
+        </li>
+        <li ng-class="setActiveKids">
+          <a class="accordion-section-heading" ng-click="toggleView('setActiveKids')">
+            <img class="accordion-header-img" src="img/kidCard_en.png">
+            <div class="centered-accordion-title">
+              kids card
+            </div>
+            <div href="#" class="expand">+</div>
+            <div href="#" class="collapse">-</div>
+          </a>
+          <ul id="kids-template-target">
+            <form name="kidsForm" class="accordion-content" ng-submit="submitCoupon('kidCard')">
+              <div class="success" ng-hide="submitError.kidCard.success">
+                · Your coupon has been submitted.
+              </div>
+              <div class="error" ng-hide="submitError.kidCard.invalid">
+                · Please enter a valid 16 digit Kids Card number.
+              </div>
+              <div class="error" ng-hide="submitError.kidCard.used">
+                · Kids Card number has already been entered.
+              </div>
+              <div class="error" ng-hide="submitError.kidCard.paytronix">
+                · There was an error connecting to Paytronix.
+              </div>
+              <h5>
+                ENTER YOUR KIDS CARD NUMBER
+              </h5>
+              <div class="input-container clearfix">
+                <input id="kidsInput" type="text" name="kidsID" placeholder="XXXXXXXXXXXXXXX" ng-model="coupon.kidCard.value">
+                <button type="submit" class="unlock-offer-btn">
+                  SUBMIT
+                </button>
+              </div>
+              <div class="form-sub-copy">
+                Enter a Kids Card number to link it to your MyBP account and get a 6th Kids Meal for free!
+              </div>
+            </form>
+          </ul>
+        </li>
+      </ul>
+
+      <ul id="accordion2" class="accordion">
+        <li ng-class="setActiveStatus">
+          <a class="accordion-section-heading" ng-click="toggleView('setActiveStatus')"> 
+            <div class="large-accordian-title">
+              SPECIAL OFFER STATUS
+            </div>
+            <div href="#" class="expand">+</div>
+            <div href="#" class="collapse">-</div>
+          </a>
+          <ul>
+            <li class="accordion-content">
+              <div class="offer-status-heading clearfix">
+                <div class="offer-status-header left">
+                  CODE
+                </div>
+                <div class="offer-status-header right">
+                  STATUS
+                </div>
+              </div>
+              <div id="special-offers-target clearfix" ng-repeat="status in offerStatus">
+                <article class="offer-status-offer-container {{status.receipt_status}} {{status.promotion_code}}" ng-hide="status.deleted">
+                  <div class="left">
+                    <img src="img/{{status.promotion_code}}_en.png">
+                  </div>
+                  <div class="right">
+                    <div class="type">
+                      <div>{{ (status.promotion_code === 'receipt') ? 'Receipt ID' : (status.promotion_code === 'offer') ? 'Promo Code' : 'Kids Card' }}</div>
+                    </div>
+                    <div class="date">
+                      {{ status.created_on | getDate }}
+                    </div>
+                    <div class="value">
+                      {{ status.receipt_number }}
+                    </div>
+                    <div class="rule">
+                      {{ status.rule_name_en}}
+                    </div>
+                    <div class="rule" ng-if="status.receipt_status == 'PENDING'">
+                      <button type="button" ng-click="deleteOffer(status)">DELETE</button>
+                    </div>
+                  </div>
+                </article>
+                <div class="clearfix"></div>
+              </div>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

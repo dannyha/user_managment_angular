@@ -1,0 +1,27 @@
+<div class="row">
+
+  <h3>MASTER TRANSACTION FINDER - Search Results</h3>
+  <p class="small">There {{data.length == 1 && 'was' || 'were'}} <strong>{{data.length}}</strong> {{data.length == 1 && 'result' || 'results'}} found for your search.</p>
+  <div class="divider"><hr></div>
+  
+  <div ng-if="transactionFinderResults">
+    <div pagination="pagination" backurl="pagination.back"></div>
+    <table class="list">
+      <tr>
+        <th ng-click="reverse=false;order('code', false)">15 DIGIT CODE</th>
+        <th ng-click="reverse=false;order('location', false)">LOCATION</th>
+        <th ng-click="reverse=false;order('date', false)">DATE</th>
+        <th ng-click="reverse=false;order('time', false)">TIME</th>
+        <th ng-click="reverse=false;order('total', false)">TOTAL</th>
+      </tr>
+      <tr ng-model="numUsers" ng-repeat="transaction in data | startFrom:pagination.current*pagination.size | limitTo:pagination.size">
+        <td><a href="#/transaction-overview/{{transaction.receipt_number}}">{{transaction.receipt_number | bgReceiptNumber}}</a></td>
+        <td>{{transaction.store_name}}</td>
+        <td>{{transaction.date | toDate}}</td>
+        <td>{{transaction.time}}</td>
+        <td>{{transaction.check_total | currency : symbol : fractionSize}}</td>
+      </tr>
+    </table>
+    <div pagination="pagination"></div>
+  </div>
+</div>

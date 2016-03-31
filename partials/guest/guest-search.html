@@ -1,0 +1,53 @@
+
+<div class="row columns-two">
+  <h3>Guest Administration</h3>
+  <div class="divider"><hr></div>
+  <form name="searchGuestsForm" ng-submit="findGuest()" class="form" ng-class="{hidden: hideForm==true}">
+
+    <div class="clearfix">
+      <div class="column first">
+        <h2>FIND A GUEST</h2>
+        <p>For all things regarding changes, tweeks, and edits when it comes to our guest profiles.</p>
+        <div class="fields">
+          <label for="username">EMAIL</label>
+          <input type="text" name="email" class="login-username" ng-model="guestSearch.email" />
+          <label for="username">FIRST NAME</label>
+          <input type="text" name="firstname" class="login-firstname" ng-model="guestSearch.firstName" />
+          <label for="username">LAST NAME</label>
+          <input type="text" name="lastname" class="login-lastname" ng-model="guestSearch.lastName" />
+          <label for="username">CONTACT NUMBER</label>
+          <input type="text" class="login-contactnumber" ng-model="guestSearch.phoneNumber" numbers-only />
+           <label for="username">PAYTRONIX ID</label>
+          <input type="text" class="login-contactnumber" ng-model="guestSearch.paytronixId" numbers-only />
+           <label for="username">
+           	<input type="checkbox" class="login-null-paytronix xMarg" id="leftCheck" ng-model="guestSearch.isPaytronixIdNull"  /> 
+           		<div class="rightLabel xMarg">NULL PAYTRONIX ID</div>
+           	</label>
+        </div>
+        <div class="btns">
+          <button type="button" class="gray btn-cancel" ng-click="reset()"><span>CLEAR FIELDS</span></button><br>
+          <button type="submit" class="gray"><span>FIND</span></button>
+        </div>
+      </div>
+
+      <div class="column">
+        <h2>add a new Guest</h2>
+        <p>Our community has grown! click below to create a new guest account.</p>
+        <div class="btns">
+          <button type="button" class="gray" ng-click="newGuest()"><span>CREATE GUEST</span></button>
+        </div>
+      </div>
+    </div>
+
+    
+
+  </form>
+
+</div>
+<div class="wrapper hidden" fancybox>
+  <div class="future_fancybox_content center">
+    <br>
+    <p>No one found</p>
+    <button type="button" ng-click="close_fancybox()">CLOSE</button>
+  </div>
+</div>

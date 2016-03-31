@@ -1,0 +1,91 @@
+<div class="row">
+	<h3>PROMOTION ADMINISTRATION</h3>
+	<div class="pagination clearfix">
+		<div class="pagination clearfix">
+			<a href="#/overview" class="left pagination-page-back"><span
+				class="pagination-links-back sprite"></span>Back</a>
+			<div class="contests">
+				<ul class="right pagination-links">
+					<a href="" ng-click="addOfferBox()" class="plus">ADD</a>
+				</ul>
+			</div>
+		</div>
+		<div class="divider">
+			<hr>
+		</div>
+	</div>
+
+	<div class="row columns-three">
+
+		<div class="column first sidenav" ng-include
+			src="'partials/promotion/promotion-side-nav.html'"></div>
+
+		<div class="columnRight">
+			<div>
+				<table class="list">
+					<tr>
+						<th>OFFER CODE</th>
+						<th>OFFER TITLE</th>
+						<th>PAYTRONIX WALLET CODE</th>
+					</tr>
+					<tr ng-repeat="bpOffer in bp_offers">
+						<td><a href="" ng-click="editOfferBox(bpOffer.offer_id)">{{bpOffer.offer_code}}</a></td>
+						<td>{{bpOffer.offer_title_en}}</td>
+						<td>{{bpOffer.paytronix_wallet_code}}</td>
+						<td><a href="" ng-click="deleteOffer(bpOffer.offer_id)"
+							class="delete">DELETE</a></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+
+		<div class="wrapper hidden" fancybox>
+			<div class="future_fancybox_content">
+
+				<div class="rewardsBox" ng-if="overlayType == 'editOffer'">
+					<h4 class="edit">Edit Offer</h4>
+					<form name="editForm" ng-submit="editOffer()">
+						<div class="edit">
+							<label style="display: inline-block; width: 180px;">OFFER CODE
+							</label> <input type="text" ng-model="offerToEdit.offer_code"
+								value={{offerToEdit.offer_code}}>
+						</div>
+
+						<div class="edit">
+							<label style="display: inline-block; width: 180px;">PAYTRONIX WALLET CODE </label> 
+							<select name="paytronix-wallet-code"
+								ng-options="offer.walletCode as offer.offerTitle for offer in $root.offers"
+								ng-model="offerToEdit.wallet_code">
+							</select>
+							<div class="sprite arrow"></div>
+						</div>
+						<div class="error" ng-bind="offerToEdit.error"></div>
+						<button type="submit">SUBMIT</button>
+						<button ng-click="deleteOffer(offerToEdit.offer_id)">DELETE</button>
+						<button type="button" ng-click="closeBox()">CANCEL</button>
+					</form>
+				</div>
+
+				<div class="rewardsBox" ng-if="overlayType == 'addOffer'">
+					<h4 class="edit">Add OFFER</h4>
+					<form name="addForm" ng-submit="addOffer()">
+						<div class="edit">
+							<label style="display: inline-block; width: 160px;">OFFER
+								CODE</label> <input type="text" ng-model="add.offer_code">
+						</div>
+						<div class="edit">
+							<label style="display: inline-block; width: 160px;">WALLET
+								CODE</label> <select name="triggerType"
+								ng-options="offer.walletCode as offer.offerTitle for offer in $root.offers"
+								ng-model="add.wallet_code">
+								<option value="">Select</option>
+							</select>
+						</div>
+						<div class="error" ng-bind="add.error"></div>
+						<button type="submit">ADD</button>
+						<button type="button" ng-click="closeBox()">CANCEL</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>

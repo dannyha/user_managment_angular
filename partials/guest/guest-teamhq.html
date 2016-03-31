@@ -1,0 +1,63 @@
+<div class="row">
+  <h3>GUEST ADMINISTRATION</h3>
+  <div class="pagination clearfix">
+    <a href="#/guest-results" class="left pagination-page-back"><span class="pagination-links-back sprite"></span>Back to Results</a>
+    <h2>{{guestInfo.first_name}} {{guestInfo.last_name}}</h2>
+  </div>
+  <div class="divider"><hr></div>
+</div>
+
+<div class="row columns-two guest-teamhq">
+  <div class="column first sidenav" ng-include src="'partials/guest/guest-side-nav.html'"></div>
+  <div class="column last">
+    <div class="preference">
+      <div ng-show="noTeam == true">Guest not associated with a team.</div>
+      <div class="guest-teamhq-team" ng-repeat="(key, team) in teams">
+        <div class="guest-teamhq-team-header clearfix guest-teamhq-divider">
+          <h5>{{ team.team_name }}</h5>
+          <a class="remove-team" ng-click="removeGuestFromTeam(team.team_id,key)">Remove guest from this team <i class="fa fa-times"></i></a>
+        </div>
+        <div class="guest-teamhq-team-communication clearfix guest-teamhq-divider">
+          <fieldset>
+            <label class="bigger">Team HQ Communication Preferences:</label>
+            <div class="switch">    
+              <div class="onoffswitch">
+                <input type="checkbox" name="emailSub" class="onoffswitch-checkbox ng-pristine ng-untouched ng-valid" id="emailSub" ng-model="communication[key]" ng-disabled="team.opt_in" ng-click="setCommunication(team.team_id,key)">
+                <label class="onoffswitch-label" for="emailSub">
+                  <span class="onoffswitch-inner"></span>
+                  <span class="onoffswitch-switch"></span>
+                </label>
+              </div>
+            </div>    
+          </fieldset>
+        </div>
+        <div class="guest-teamhq-team-rewards clearfix guest-teamhq-divider">
+          <h5>Add Rewards:</h5>
+          <p>Enter Receipt Access Code:</p>
+          <input type="text" name="receipt" placeholder="XXXXX-XXXXX-XXXXX" ng-model="receiptNum[key]" ng-change="checkReceiptInput(key)" >
+          <button type="button" ng-click="addReceipt(team.team_id,key)"><span>Submit</span></button>
+        </div>
+        <div class="guest-teamhq-team-transactions">
+          <h5>Transaction History</h5>
+          <p>NOTE: Transactions appear in the CSP before they appear in the guest's profile. If approved, the transaction will typically appear in the guest's profile <strong>within 48 hours</strong>.</p>
+          <table class="list">
+            <tr>
+              <th ng-click="reverse=false;order('receipt_number', false)">Receipt Code Submitted</th>
+              <th ng-click="reverse=false;order('date_submitted', false)">Date Submitted</th>
+              <th ng-click="reverse=!reverse;order('receipt_status', false)">Approval Status</th>
+              <th ng-click="reverse=false;order('receipt_status', false)">Wallet Status</th>
+            </tr>
+            <tr ng-repeat="transaction in team.csp_guest_team_transactions">
+              <td class=""><a href="#/transaction-overview/{{ transaction.receipt_number | stripDashes }}">{{ transaction.receipt_number }}</a></td>
+              <td class="">{{ transaction.date_submitted }}</td>
+              <td class="">{{ transaction.receipt_status }}</td>
+              <td class="">{{ transaction.receipt_status }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div generic-modal="modal"></div>

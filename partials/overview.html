@@ -1,0 +1,81 @@
+<div class="row center">
+	<img src="img/banner_overview.jpg" alt="" class="banner">
+</div>
+<div class="row columns-two">
+	<div class="column first"
+		ng-if="userDetails.role != 'ROLE_CSP_GUEST_MANAGER' && userDetails.role != 'ROLE_CSP_CONTEST_MANAGER' ">
+		<div class="tout">
+			<img src="img/tout_user-admin.jpg" alt="">
+			<h3>User Administration</h3>
+			<strong>For our inner community</strong>
+			<p>This is to help us moderate ourselves. To add, edit, and
+				manage accounts within this system.</p>
+			<a href="#/user-admin" class="button gray"><span>ENTER</span></a>
+		</div>
+	</div>
+	<div class="column">
+		<div class="tout last"
+			ng-if="userDetails.role != 'ROLE_CSP_CONTEST_MANAGER'">
+			<img src="img/tout_guest-admin.jpg" alt="">
+			<h3>Guest Administration</h3>
+			<strong>For guest services</strong>
+			<p>It's everything you need from helping answer Guests' questions
+				to managing their accounts.</p>
+			<a href="#/guest-admin" class="button gray"><span>ENTER</span></a>
+		</div>
+	</div>
+	<div class="column first">
+		<div class="tout" ng-if="userDetails.role != 'ROLE_CSP_GUEST_MANAGER'">
+			<img src="img/tout_contest-admin.jpg" alt="">
+			<h3>Contest Administration</h3>
+			<strong>For contest services</strong>
+			<p>Portal to allow you to Create / Read / Update/ Delete contest
+				details.</p>
+			<a href="#/contest-admin" class="button gray"><span>ENTER</span></a>
+		</div>
+	</div>
+	<div class="column">
+		<div class="tout last"
+			ng-if="userDetails.role != 'ROLE_CSP_PROMOTION_MANAGER'">
+			<img src="img/tout_promotion-admin.jpg" alt="">
+			<h3>Promotion Administration</h3>
+			<strong>For promotion services</strong>
+			<p>Portal to allow you to Create / Read / Update/ Delete promotion
+				details.</p>
+			<a href="#/promotion-actions" class="button gray"><span>ENTER</span></a>
+		</div>
+	</div>
+
+	<div class="column first">
+		<div class="tout" ng-if="userDetails.role != 'ROLE_CSP_GUEST_MANAGER'">
+			<img src="img/tout_offers-admin.jpg" alt="">
+			<h3>Offers Administration</h3>
+			<strong>Upload offer images</strong>
+			<p>Portal to allow you to Upload offer images.</p>
+			<a href="#/offers-admin" class="button gray"><span>ENTER</span></a>
+		</div>
+	</div>
+
+	<div class="column">
+		<div class="tout last"
+			ng-if="userDetails.role != 'ROLE_CSP_PROMOTION_MANAGER'">
+			<img src="img/TeamHQ_Logo.png" alt="">
+			<h3>Team HQ Administration</h3>
+			<strong>For promotion services</strong>
+			<p>Portal to allow you to Create / Read / Update/ Delete promotion
+				details.</p>
+			<a href="#/teamhq-admin" class="button gray"><span>ENTER</span></a>
+		</div>
+	</div>
+
+	<div class="column first">
+		<div class="tout" ng-if="userDetails.role != 'ROLE_CSP_GUEST_MANAGER'">
+			<img src="img/transaction_finder_receipt.png" width="211" height="181" alt="">
+			<h3>Transaction Finder</h3>
+			<strong>Upload offer images</strong>
+			<p>Portal to allow you to Upload offer images.</p>
+			<a href="#/transaction-finder" class="button gray"><span>ENTER</span></a>
+		</div>
+	</div>
+
+</div>

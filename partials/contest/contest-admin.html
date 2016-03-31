@@ -1,0 +1,182 @@
+<div class="row">
+  <h3>Current Contests</h3>
+  <div class="divider"><hr></div>
+  <div>
+    <div class="pagination clearfix">
+      <a href="#/overview" class="left pagination-page-back"><span class="pagination-links-back sprite"></span>Back</a>
+      <div class="contests">
+      <ul class="right pagination-links">
+        <a href="" ng-click="addContestBox()" class="plus">ADD</a>
+      </ul>
+      </div>
+    </div>
+    <div ng-if="contestSearchResults" class="contests">
+    <table class="list">
+      <tr>
+        <th>CONTEST CODE</th>
+        <th>TITLE EN</th>
+        <th>TITLE FR</th>
+        <th>START DATE</th>
+        <th>END DATE</th>
+      </tr>
+      <tr ng-model="numUsers" ng-repeat="contest in contestSearchResults | startFrom:pagination.current*pagination.size | limitTo:pagination.size" ng-click="editContestBox(contest.contest_code)">
+        <td>{{contest.contest_code}}</a></td>
+        <td>{{contest.title_en}}</td>
+        <td>{{contest.title_fr}}</td>
+        <td>{{contest.start_date}}</td>
+        <td>{{contest.end_date}}</a></td>
+      </tr>
+    </table>
+    </div>
+    <div pagination="pagination"></div>
+  </div>
+</div>
+
+
+<div class="wrapper hidden" fancybox>
+  <div class="future_fancybox_content">
+
+    <div class="rewardsBox" ng-if="overlayType == 'editContest'">
+      <h4 class="edit">Edit Contest</h4>
+      <form name="editForm" ng-submit="editContest()">
+        <div class="edit">
+          <label style="display:inline-block; width:180px;">CONTEST CODE</label>
+          <input type="text" ng-model="contestToEdit.contest_code" value={{contestToEdit.contest_code}}>
+        </div>
+        <div class="edit">
+          <label style="display:inline-block; width:180px;">TITLE EN</label>
+          <input type="text" ng-model="contestToEdit.title_en" value={{contestToEdit.title_en}}>
+        </div>
+        <div class="edit">
+          <label style="display:inline-block; width:180px;">TITLE FR</label>
+          <input type="text" ng-model="contestToEdit.title_fr" value={{contestToEdit.title_fr}}>
+        </div>
+        <div class="edit">
+          <label style="display:inline-block; width:180px;">START DATE</label>
+          <input type="text" ng-model="contestToEdit.start_date" value={{contestToEdit.start_date}}>
+        </div>
+        <div class="edit">
+          <label style="display:inline-block; width:180px;">END DATE</label>
+          <input type="text" ng-model="contestToEdit.end_date" value={{contestToEdit.end_date}}>
+        </div>
+        <div class="edit">
+          <label style="display:inline-block; width:180px;">DESCRIPTION EN</label>
+          <input type="text" ng-model="contestToEdit.description_en" value={{contestToEdit.description_en}}>
+        </div>
+        <div class="edit">
+          <label style="display:inline-block; width:180px;">DESCRIPTION FR</label>
+          <input type="text" ng-model="contestToEdit.description_fr" value={{contestToEdit.description_fr}}>
+        </div>
+        <div class="edit">
+          <label style="display:inline-block; width:180px;">IN STORE</label>
+          <input type="text" ng-model="contestToEdit.in_store" value={{contestToEdit.in_store}}>
+        </div>
+        <div class="edit">
+          <label style="display:inline-block; width:180px;">ONLINE</label>
+          <input type="text" ng-model="contestToEdit.online" value={{contestToEdit.online}}>
+        </div>
+        <div class="edit">
+          <label style="display:inline-block; width:180px;">LEGAL EN</label>
+          <input type="text" ng-model="contestToEdit.legal_en" value={{contestToEdit.legal_en}}>
+        </div>
+        <div class="edit">
+          <label style="display:inline-block; width:180px;">LEGAL FR</label>
+          <input type="text" ng-model="contestToEdit.legal_fr" value={{contestToEdit.legal_fr}}>
+        </div>
+        <div class="edit">
+          <label style="display:inline-block; width:180px;">MENU ITEM ID</label>
+          <input type="text" ng-model="contestToEdit.menu_item_id" value={{contestToEdit.menu_item_id}}>
+        </div>
+        <div class="edit">
+          <label style="display:inline-block; width:180px;">BANNER EN</label>
+          <input type="text" ng-model="contestToEdit.banner_en" value={{contestToEdit.banner_en}}>
+        </div>
+        <div class="edit">
+          <label style="display:inline-block; width:180px;">BANNER FR</label>
+          <input type="text" ng-model="contestToEdit.banner_fr" value={{contestToEdit.banner_fr}}>
+        </div>
+        <div class="edit">
+          <label style="display:inline-block; width:180px;">BANNER RETINA EN</label>
+          <input type="text" ng-model="contestToEdit.banner_retina_en" value={{contestToEdit.banner_retina_en}}>
+        </div>
+        <div class="edit">
+          <label style="display:inline-block; width:180px;">BANNER RETINA FR</label>
+          <input type="text" ng-model="contestToEdit.banner_retina_fr" value={{contestToEdit.banner_retina_fr}}>
+        </div>
+        <div class="error" ng-bind="contestToEdit.error"></div>
+        <button type="submit" >SUBMIT</button>
+        <button ng-click="deleteContest(contestToEdit.contest_code)" >DELETE</button>
+        <button type="button" ng-click="closeBox()">CANCEL</button>
+      </form>
+    </div>
+
+    <div class="rewardsBox" ng-if="overlayType == 'addContest'">
+      <h4 class="edit">Add Contest</h4>
+      <form name="editForm" ng-submit="addContest()">
+        <div class="edit">
+          <label style="display:inline-block; width:180px;">TITLE EN</label>
+          <input type="text" ng-model="add.title_en">
+        </div>
+        <div class="edit">
+          <label style="display:inline-block; width:180px;">TITLE FR</label>
+          <input type="text" ng-model="add.title_fr">
+        </div>
+        <div class="edit">
+          <label style="display:inline-block; width:180px;">START DATE<br>(Please use Eastern Time e.g. 2015-02-28T13:10:30)</label>
+          <input type="text" ng-model="add.start_date">
+        </div>
+        <div class="edit">
+          <label style="display:inline-block; width:180px;">END DATE<br>(Please use Eastern Time e.g. 2015-02-28T13:10:30)</label>
+          <input type="text" ng-model="add.end_date">
+        </div>
+        <div class="edit">
+          <label style="display:inline-block; width:180px;">DESCRIPTION EN</label>
+          <input type="text" ng-model="add.description_en">
+        </div>
+        <div class="edit">
+          <label style="display:inline-block; width:180px;">DESCRIPTION FR</label>
+          <input type="text" ng-model="add.description_fr">
+        </div>
+        <div class="edit">
+          <label style="display:inline-block; width:180px;">IN STORE (true/false)</label>
+          <input type="text" ng-model="add.in_store">
+        </div>
+        <div class="edit">
+          <label style="display:inline-block; width:180px;">ONLINE (true/false)</label>
+          <input type="text" ng-model="add.online">
+        </div>
+        <div class="edit">
+          <label style="display:inline-block; width:180px;">LEGAL EN</label>
+          <input type="text" ng-model="add.legal_en">
+        </div>
+        <div class="edit">
+          <label style="display:inline-block; width:180px;">LEGAL FR</label>
+          <input type="text" ng-model="add.legal_fr">
+        </div>
+        <div class="edit">
+          <label style="display:inline-block; width:180px;">MENU ITEM ID</label>
+          <input type="text" ng-model="add.menu_item_id">
+        </div>
+        <div class="edit">
+          <label style="display:inline-block; width:180px;">BANNER EN</label>
+          <input type="text" ng-model="add.banner_en">
+        </div>
+        <div class="edit">
+          <label style="display:inline-block; width:180px;">BANNER FR</label>
+          <input type="text" ng-model="add.banner_fr">
+        </div>
+        <div class="edit">
+          <label style="display:inline-block; width:180px;">BANNER RETINA EN</label>
+          <input type="text" ng-model="add.banner_retina_en">
+        </div>
+        <div class="edit">
+          <label style="display:inline-block; width:180px;">BANNER RETINA FR</label>
+          <input type="text" ng-model="add.banner_retina_fr">
+        </div>
+        <div class="error" ng-bind="add.error"></div>
+        <button type="submit" >ADD</button>
+        <button type="button" ng-click="closeBox()">CANCEL</button>
+      </form>
+    </div>    
+  </div>
+</div>

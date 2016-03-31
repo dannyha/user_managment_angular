@@ -1,0 +1,186 @@
+<div class="row">
+	<h3>PROMOTION ADMINISTRATION</h3>
+	<div class="pagination clearfix">
+		<div class="pagination clearfix">
+			<a href="#/overview" class="left pagination-page-back"><span
+				class="pagination-links-back sprite"></span>Back</a>
+			<div class="contests">
+				<ul class="right pagination-links">
+					<a href="" ng-click="addRuleBox()" class="plus">ADD</a>
+				</ul>
+			</div>
+		</div>
+		<div class="divider">
+			<hr>
+		</div>
+	</div>
+
+	<div class="row columns-three">
+		<div class="column first sidenav" ng-include
+			src="'partials/promotion/promotion-side-nav.html'"></div>
+
+		<div class="columnRight">
+			<div>
+				<table class="list">
+					<tr>
+						<th>NAME EN</th>
+						<th>NAME FR</th>
+						<th>DESCRIPTION EN</th>
+						<th>DESCRIPTION FR</th>
+						<th>START DATE</th>
+						<th>END DATE</th>
+					</tr>
+					<tr ng-repeat="bpPromotionRule in bp_promotion_rules">
+						<td><a href="" ng-click="editRuleBox(bpPromotionRule.rule_code)">{{bpPromotionRule.name_en}}</a></td>
+						<td>{{bpPromotionRule.name_fr}}</td>
+						<td>{{bpPromotionRule.description_en}}</td>
+						<td>{{bpPromotionRule.description_fr}}</td>
+						<td>{{bpPromotionRule.start_date}}</td>
+						<td>{{bpPromotionRule.end_date}}</td>
+						<td><a href="" ng-click="deleteRule(bpPromotionRule.rule_code)"
+							class="delete">DELETE</a></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+
+		<script type="text/html" fancybox>
+			<div class="wrapper hidden">
+				<div class="future_fancybox_content">
+					<div class="rewardsBox" ng-if="overlayType == 'addRule'">
+						<h4 class="edit">Add RULE</h4>
+						<form name="addForm" ng-submit="addRule()">
+							<div class="edit">
+								<label style="display: inline-block; width: 180px;">NAME EN</label>
+								<input type="text" ng-model="add.name_en">
+							</div>
+
+							<div class="edit">
+								<label style="display: inline-block; width: 180px;">NAME FR</label>
+								<input type="text" ng-model="add.name_fr">
+							</div>
+
+							<div class="edit">
+								<label style="display: inline-block; width: 180px;">START DATE
+								<br>(e.g. 2015-02-28T13:10:30)
+								</label>
+								<input type="text" ng-model="add.start_date">
+							</div>
+
+							<div class="edit">
+								<label style="display: inline-block; width: 180px;">END DATE
+								<br>(e.g. 2015-02-28T13:10:30)
+								</label>
+								<input type="text" ng-model="add.end_date">
+							</div>
+
+							<div class="edit">
+								<label style="display: inline-block; width: 180px;">DESCRIPTION EN</label>
+								<input type="text" ng-model="add.description_en">
+							</div>
+
+							<div class="edit">
+								<label style="display: inline-block; width: 180px;">DESCRIPTION FR</label>
+								<input type="text" ng-model="add.description_fr">
+							</div>
+
+							<div class="edit">
+								<label style="display: inline-block; width: 180px;">TRIGGER</label>
+								<br>
+								<label ng-repeat="trigger in $root.promotion_triggers">
+									<input type="checkbox" checklist-model="trigger_codes" checklist-value="trigger.trigger_code"
+										ng-click="toggleTriggerSelection(trigger.trigger_code)"/>
+										{{trigger.name}}
+									<br>
+								</label>
+							</div>
+
+							<div class="edit">
+								<label style="display: inline-block; width: 180px;">ACTION</label>
+								<br>
+								<span ng-model="action_codes" ng-repeat="action in $root.promotion_actions">
+									<label class="checkbox" for="{{action.action_code}}">
+										<input type="checkbox" name="actionGroup" id="{{action.action_code}}"
+											ng-click="toggleActionSelection(action.action_code)" />
+											{{action.name}}
+										<br>
+									</label>
+								</span>
+							</div>
+
+							<div class="error" ng-bind="add.error"></div>
+							<button type="submit">ADD</button>
+							<button type="button" ng-click="closeBox()">CANCEL</button>
+						</form>
+					</div>
+					<div class="rewardsBox" ng-if="overlayType == 'editRule'">
+						<h4 class="edit">EDIT RULE</h4>
+						<form name="addForm" ng-submit="editRule()">
+							<div class="edit">
+								<label style="display: inline-block; width: 180px;">NAME EN</label>
+								<input type="text" ng-model="ruleToEdit.name_en" value={{ruleToEdit.name_en}}>
+							</div>
+
+							<div class="edit">
+								<label style="display: inline-block; width: 180px;">NAME FR</label>
+								<input type="text" ng-model="ruleToEdit.name_fr" value={{ruleToEdit.name_fr}}>
+							</div>
+
+							<div class="edit">
+								<label style="display: inline-block; width: 180px;">START DATE
+								<br>(e.g. 2015-02-28T13:10:30)
+								</label>
+								<input type="text" ng-model="ruleToEdit.start_date" value={{ruleToEdit.start_date}}>
+							</div>
+
+							<div class="edit">
+								<label style="display: inline-block; width: 180px;">END DATE
+								<br>(e.g. 2015-02-28T13:10:30)
+								</label>
+								<input type="text" ng-model="ruleToEdit.end_date" value={{ruleToEdit.end_date}}>
+							</div>
+
+							<div class="edit">
+								<label style="display: inline-block; width: 180px;">DESCRIPTION EN</label>
+								<input type="text" ng-model="ruleToEdit.description_en" value={{ruleToEdit.description_en}}>
+							</div>
+
+							<div class="edit">
+								<label style="display: inline-block; width: 180px;">DESCRIPTION FR</label>
+								<input type="text" ng-model="ruleToEdit.description_fr" value={{ruleToEdit.description_fr}}>
+							</div>
+
+							<div class="edit">
+								<label style="display: inline-block; width: 180px;">TRIGGER</label>
+								<br>
+								<label ng-repeat="trigger in $root.promotion_triggers">
+									<input type="checkbox" name="triggerGroup" id="{{trigger.trigger_code}}" ng-checked="ruleToEdit.trigger_codes.indexOf(trigger.trigger_code) > -1" ng-click="toggleTriggerSelection(trigger.trigger_code)"/>
+										{{trigger.name}}
+									<br>
+								</label>
+							</div>
+
+							<div class="edit">
+								<label style="display: inline-block; width: 180px;">ACTION</label>
+								<br>
+								<span ng-model="action_codes" ng-repeat="action in $root.promotion_actions">
+									<label class="checkbox" for="{{action.action_code}}">										
+										<input type="checkbox" name="actionGroup" id="{{action.action_code}}" ng-checked="ruleToEdit.action_codes.indexOf(action.action_code) > -1" ng-click="toggleActionSelection(action.action_code)" />
+											{{action.name}}
+										<br>
+									</label>
+								</span>
+							</div>
+
+							<div class="error" ng-bind="ruleToEdit.error"></div>
+							<button type="submit">SUBMIT</button>
+							<button type="button" ng-click="deleteRule(ruleToEdit.rule_code)">DELETE</button>
+							<button type="button" ng-click="closeBox()">CANCEL</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</script>
+
+
+	</div>

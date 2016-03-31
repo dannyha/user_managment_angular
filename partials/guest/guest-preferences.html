@@ -1,0 +1,63 @@
+<div class="row">
+  <h3>GUEST ADMINISTRATION</h3>
+  <div class="pagination clearfix">
+    <a href="#/guest-results" class="left pagination-page-back"><span class="pagination-links-back sprite"></span>Back to Results</a>
+    <h2>{{guestInfo.first_name}} {{guestInfo.last_name}}</h2>
+    
+  </div>
+  <div class="divider"><hr></div>
+</div>
+
+<div class="row columns-three">
+
+  <div class="column first sidenav" ng-include src="'partials/guest/guest-side-nav.html'"></div>
+
+  <div class="column">
+    <form name="accountPreferenceForm" ng-submit="preferences()" class="form" ng-class="{hidden: hideForm==true}">
+      <div class="preference">
+        <h4>COMMUNICATION PREFERENCES</h4>
+        <p>Tell us what you’re into so we can send you relevant communications. I want to receive the following communications by:</p>
+        
+        <fieldset>
+          <label class="bigger">EMAIL:</label>
+          <div class="switch">    
+            <div class="onoffswitch">
+              <input type="checkbox" name="emailSub" class="onoffswitch-checkbox" id="emailSub" ng-model="communicationOptions.channel_email" >
+              <label class="onoffswitch-label" for="emailSub">
+                <span class="onoffswitch-inner"></span>
+                <span class="onoffswitch-switch"></span>
+              </label>
+            </div>
+          </div>    
+        </fieldset>
+        <br class="clr">
+        <fieldset class="subset">
+          <h4>INTERESTS</h4>
+          <div ng-repeat="interest in interests">
+            <input type="checkbox" name="{{interest.name}}" id="{{interest.name}}" ng-model="interest.status" ng-change="checkBox(interest, 'interests')"> <label for="{{interest.name}}" >{{interest.name | titleCase}}</label>
+          </div>
+        </fieldset>
+        
+        <fieldset class="subset" >
+          <h4>SPORTS</h4>
+          <div ng-repeat="sport in sports">
+            <input type="checkbox" name="{{sport.name}}" id="{{sport.name}}" ng-model="sport.status" ng-change="checkBox(sport, 'sports')"> <label for="{{sport.name}}" >{{sport.name | titleCase}}</label>
+          </div>
+          
+        </fieldset>
+        
+      </div>
+      <div class="btns right">
+        <button type="button" ng-click="backBtn()"><span>CANCEL</span></button>
+        <button type="submit"><span>SAVE</span></button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="wrapper hidden" fancybox>
+  <div class="future_fancybox_content center">
+    <p>Communication Preferences Updated</p>
+    <button type="button" ng-click="close_fancybox()"><span>CLOSE</span></button>
+  </div>
+</div>
